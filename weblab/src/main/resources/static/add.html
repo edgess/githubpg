@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="webjars/layui/2.4.5/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="webjars/layui/2.4.5/css/layui.css">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    layui.use(['form', 'laydate'], function () {
+        var form = layui.form, laydate = layui.laydate;
+        form.render();
+
+        form.on('submit(demo1)', function (data) {
+            console.log(JSON.stringify(data.field));
+            $.ajax({
+                type: "POST",
+                url: "insertoil",
+                data: data.field,
+                success: function (result) {
+                    // layer.msg(result);
+                    //当你在iframe页面关闭自身时
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+
+                }
+            });
+
+            // return false;
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+            , value: new Date()
+
+        });
+
+    });
+</script>
+<form class="layui-form">
+
+    <!--<div class="layui-form-item">-->
+    <!--<label class="layui-form-label">复选框</label>-->
+    <!--<div class="layui-input-block">-->
+    <!--<input type="checkbox" name="like[write]" title="写作">-->
+    <!--<input type="checkbox" name="like[read]" title="阅读" checked>-->
+    <!--<input type="checkbox" name="like[game]" title="游戏">-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="layui-form-item">-->
+    <!--<label class="layui-form-label">开关-默认关</label>-->
+    <!--<div class="layui-input-block">-->
+    <!--<input type="checkbox" name="close" lay-skin="switch" lay-text="开|关">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="layui-form-item">-->
+    <!--<label class="layui-form-label">单选框</label>-->
+    <!--<div class="layui-input-block">-->
+    <!--<input type="radio" name="sex" value="男" title="男" checked>-->
+    <!--<input type="radio" name="sex" value="女" title="女">-->
+    <!--<input type="radio" name="sex" value="禁" title="禁用" disabled>-->
+    <!--</div>-->
+    <!--</div>-->
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">mile</label>
+        <div class="layui-input-block">
+            <input type="text" name="mile" lay-verify="required|number" autocomplete="off" placeholder="mile"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">cash</label>
+        <div class="layui-input-block">
+            <input type="text" name="cash" lay-verify="required|number" autocomplete="off" placeholder="cash"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">price</label>
+        <div class="layui-input-block">
+            <input type="text" name="price" lay-verify="required|number" autocomplete="off" placeholder="price"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">日期</label>
+        <div class="layui-input-block">
+            <input class="layui-input" placeholder="日期" name="date" id="start">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <button class="layui-btn" lay-submit lay-filter="demo1" style="width:100%;">提交</button>
+    </div>
+
+</form>
+
+</body>
+</html>

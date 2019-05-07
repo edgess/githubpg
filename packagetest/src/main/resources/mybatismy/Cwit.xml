@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.edge.daomy.mapper.Cwit">
+
+	<select id="getone"  resultType="STRING">
+		SELECT
+			cwstr
+		FROM cwit
+		WHERE cwid = #{cwid}
+	</select>
+	
+	<insert id="setone" >
+	   insert into cwit
+		(cwid,cwstr) 
+		values (#{cwid,jdbcType=INTEGER},
+				<if test="cwstr != ''">
+					 #{cwstr}
+				</if>
+				<if test="cwstr == ''">
+					 'empty'
+				</if> )
+	</insert>
+	
+	<update id="editone" >
+	   update cwit
+		   <set>
+				<if test="cwstr != ''">
+					cwstr = #{cwstr}
+				</if>
+				<if test="cwstr == ''">
+					cwstr = 'empty'
+				</if>
+		   </set>
+	   where cwid = #{cwid,jdbcType=INTEGER}
+	</update>
+	
+	<delete id="delone" parameterType="INTEGER">
+		delete from cwit where cwid = #{cwid}
+	</delete>	
+	
+</mapper>

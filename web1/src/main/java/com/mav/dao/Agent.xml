@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mav.dao.Agent">
+
+	<select id="getDeptName"  resultType="java.util.HashMap">
+		SELECT
+			id,
+			dept_name
+		FROM agent
+		WHERE agent.agent_type LIKE '%直销网点%' OR agent.agent_type  LIKE '%公司部门%'
+		ORDER BY order_id
+	</select>
+
+</mapper>

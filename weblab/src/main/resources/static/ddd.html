@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="webjars/layui/2.4.5/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="webjars/layui/2.4.5/css/layui.css">
+    <title>Title</title>
+    <link rel="stylesheet" href="aaa.css">
+</head>
+<body>
+<div class="layui-row">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <input type="text" lay-verify="number" id="username" name="username" placeholder="id大于"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="sreach"><i
+                        class="layui-icon">&#xe615;</i></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--<table class="layui-main layui-hide" id="test" lay-filter="test"></table>-->
+<table id="test" lay-filter="test"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">选中删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">添加</button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a lay-event="edit" title="编辑">
+        <i class="layui-icon layui-icon-edit" style="font-size: 25px;"></i>
+    </a>
+    <a lay-event="del" title="删除">
+        <i class="layui-icon layui-icon-delete" style="font-size: 25px;"></i>
+    </a>
+    <a lay-event="edit2" title="编辑2">
+        <i class="layui-icon layui-icon-edit" style="font-size: 25px;"></i>
+    </a>
+</script>
+<script>
+    layui.use(['util', 'table', 'form'], function () {
+        var table = layui.table, util = layui.util, form = layui.form;
+
+        form.on('submit(sreach)', function (data) {
+            // console.log(JSON.stringify(data.field));
+            // console.log($("#username").val());
+            table.reload('test', {where: data.field});
+            return false;
+        });
+
+        table.render({
+            elem: '#test'
+            // , id: 'idTest'
+            , url: 'getoilbypage'
+            , defaultToolbar: false//关闭右侧
+            // , toolbar: '#toolbarDemo'
+            , toolbar: 'default'
+            // , where: {username: JSON.stringify($("#username").val())}
+            , page: true //开启分页
+            , loading: true
+            , limit: 15 //设置pagesize，默认10
+            , cols: [[
+                {type: 'checkbox'}
+                , {field: 'id', title: 'id'}
+                , {field: 'mile', title: 'mile'}
+                , {field: 'cash', title: 'cash'}
+                , {field: 'price', title: 'price'}
+                , {
+                    field: 'date', title: 'date'
+                    ,
+                    // templet: "<div>{{layui.util.toDateString(d.date, 'yyyy-MM-dd')}}</div>"
+                    templet: function (d) {
+                        return util.toDateString(d.date, 'yyyy-MM-dd');
+                    }
+                }
+                , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
+            ]]
+        });
+
+        // //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    // console.log(JSON.stringify(data));
+                    var d = "";
+                    $.each(data, function (i, da) {
+                        d += "&ids=" + da.id
+                    });
+                    // console.log(d);
+                    if (d) {
+                        layer.confirm('请确认删除', function (index) {
+                            $.ajax({
+                                type: "POST",
+                                url: "deloilsbyid",
+                                data: d,
+                                success: function (result) {
+                                    layer.msg(result);
+                                }
+                            });
+                            parent.layui.table.reload('test', {page: {curr: 1}});
+                        });
+                    }
+                    // layer.alert(JSON.stringify(data));
+                    break;
+                case 'update':
+                    var dataall = checkStatus.data;
+                    var data = dataall[0];
+                    console.log(data);
+                    if (dataall.length === 1) {
+                        layer.open({
+                            type: 2
+                            , title: 'edit'
+                            , area: ["500px", "400px"]
+                            , content: 'edit.html'
+                            , success: function (layero, index) {
+                                var body = layer.getChildFrame('body', index);
+                                body.contents().find("#id").val(data.id);
+                                body.contents().find("#mile").val(data.mile);
+                                body.contents().find("#cash").val(data.cash);
+                                body.contents().find("#price").val(data.price);
+                                body.contents().find("#date").val(util.toDateString(data.date, 'yyyy-MM-dd'));
+                            }
+                            , end: function () { //关闭后回调函数
+                                // window.location.reload();
+                                table.reload('test');
+                            }
+                        });
+                    } else {
+                        layer.msg('选择一个');
+                    }
+                    break;
+                case 'isAll':
+                    layer.open({
+                        type: 2
+                        , title: '我是标题'
+                        , area: ["500px", "400px"]
+                        , content: 'add.html'
+                        , end: function () { //关闭后回调函数
+                            window.location.reload();
+                        }
+                    });
+                    break;
+                case 'add':
+                    layer.open({
+                        type: 2
+                        , title: '我是标题'
+                        , area: ["500px", "400px"]
+                        , content: 'add.html'
+                        , end: function () { //关闭后回调函数
+                            table.reload('test');
+                            // window.location.reload();
+                        }
+                    });
+                    break;
+                case 'edit':
+                    layer.open({
+                        type: 2
+                        , title: 'edit'
+                        , area: ["500px", "400px"]
+                        , content: 'edit.html'
+                        , success: function (layero, index) {
+                            var body = layer.getChildFrame('body', index);
+                            body.contents().find("#id").val(data.id);
+                            body.contents().find("#mile").val(data.mile);
+                            body.contents().find("#cash").val(data.cash);
+                            body.contents().find("#price").val(data.price);
+                            body.contents().find("#date").val(util.toDateString(data.date, 'yyyy-MM-dd'));
+                        }
+                        , end: function () { //关闭后回调函数
+                            window.location.reload();
+                        }
+                    });
+                    break;
+                case 'delete':
+                    var data = checkStatus.data;
+                    // console.log(JSON.stringify(data));
+                    var d = "";
+                    $.each(data, function (i, da) {
+                        d += "&ids=" + da.id
+                    });
+                    // console.log(d);
+                    if (d) {
+                        layer.confirm('请确认删除', function (index) {
+                            $.ajax({
+                                type: "POST",
+                                url: "deloilsbyid",
+                                data: d,
+                                success: function (result) {
+                                    layer.msg(result);
+                                    table.reload('test');
+                                }
+                            });
+                            // parent.layui.table.reload('test', {page: {curr: 1}});
+                        });
+                    }
+                    // layer.alert(JSON.stringify(data));
+                    break;
+            }
+            ;
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('请确认删除', function (index) {
+                    $.ajax({
+                        type: "POST",
+                        url: "deloilsbyid",
+                        data: "&ids=" + data.id,
+                        success: function (result) {
+                            layer.msg(result);
+                            table.reload('test');
+                        }
+                    });
+                    // layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                layer.open({
+                    type: 2
+                    , title: 'edit'
+                    , area: ["500px", "400px"]
+                    , content: 'edit.html'
+                    , success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        body.contents().find("#id").val(data.id);
+                        body.contents().find("#mile").val(data.mile);
+                        body.contents().find("#cash").val(data.cash);
+                        body.contents().find("#price").val(data.price);
+                        body.contents().find("#date").val(util.toDateString(data.date, 'yyyy-MM-dd'));
+                    }
+                    , end: function () { //关闭后回调函数
+                        table.reload('test');
+                    }
+                });
+            } else if (obj.event === 'edit2') {
+                // console.log(jQuery.param(data));
+                layer.open({
+                    type: 2
+                    , title: 'edit'
+                    , area: ["500px", "400px"]
+                    , content: 'edit2.html?' + jQuery.param(data)
+                    , end: function () { //关闭后回调函数
+                        table.reload('test');
+                    }
+                });
+            }
+        });
+
+        //监听行单击事件,与工具栏点击冲突，
+        // table.on('row(test)', function (obj) {
+        //     var data = obj.data;
+        //     layer.open({
+        //         type: 2
+        //         , title: 'edit'
+        //         , area: ["500px", "400px"]
+        //         , content: 'edit.html'
+        //         , success: function (layero, index) {
+        //             var body = layer.getChildFrame('body', index);
+        //             body.contents().find("#id").val(data.id);
+        //             body.contents().find("#mile").val(data.mile);
+        //             body.contents().find("#cash").val(data.cash);
+        //             body.contents().find("#price").val(data.price);
+        //             body.contents().find("#date").val(util.toDateString(data.date, 'yyyy-MM-dd'));
+        //         }
+        //         , end: function () { //关闭后回调函数
+        //             window.location.reload();
+        //         }
+        //     });
+        // });
+
+    });
+</script>
+</body>
+</html>

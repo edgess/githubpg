@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.3.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+    <context:component-scan base-package="com.mav.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!-- 上传文件的配置 -->
+    <!-- <bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"></property> </bean> -->
+
+    <!--拦截器 -->
+    <mvc:interceptors>
+        <!--使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求-->
+        <mvc:interceptor>
+            <!--进行拦截：/**表示拦截所有controller-->
+            <mvc:mapping path="/**"/>
+            <!--不进行拦截-->
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/dologin"/>
+            <mvc:exclude-mapping path="/authCode"/>
+            <mvc:exclude-mapping path="/getone"/>
+            <mvc:exclude-mapping path="/images/**"/>
+            <mvc:exclude-mapping path="/script/**"/>
+            <mvc:exclude-mapping path="/webjars/**"/>
+            <!--拦截器类名-->
+            <bean class="com.mav.interceptor.MyInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <mvc:default-servlet-handler/>
+    <mvc:annotation-driven />
+</beans> 

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>IT设备管理</title>
+<link rel="shortcut icon" href="images/favicon.ico" />
+<link rel="bookmark" href="images/favicon.ico" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- <script src="script/jquery/3.2.1/jquery.min.js"></script>
+<script src="script/vue/2.2.2/vue.min.js"></script>
+<script src="script/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<link href="script/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+<script src="script/jquery/3.2.1/jquery.min.js"></script>
+<script src="script/jquery-validate/1.17.0/jquery.validate.js"></script>
+<script src="script/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<link href="script/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+	
+		<a href="javascript:void(0)" onclick="onford()">error</a> 
+		
+		<div id="main">
+
+			<!--a标签设定隐藏input的value，并且提交表单 -->
+			<a href="javascript:void(0)" @click="changeData(pageNo-1)">&lt;上一页</a> 
+			 	
+			 	--共 {{resultCount}} 条记录-
+			 	
+<!-- 			<c:forEach var="i" begin="1" end="${page3.pageCount}" step="1"> -->
+<!-- 				<a href="javascript:void(0)" -->
+<!-- 					onclick="document.getElementById('pgset').setAttribute('value',${i});document.getElementById('search_form').submit();"> -->
+<!-- 					${i}</a> -->
+<!-- 			</c:forEach>  -->
+			 	共{{pageCount}} 页
+			 	-当前第{{pageNo}} 页--
+			 	
+			<a href="javascript:void(0)" @click="changeData(pageNo==pageCount ? pageNo : pageNo+1)">下一页&gt;</a>
+		
+		
+			<table class="table table-hover table-condensed">
+				<thead>
+					<tr>
+						<th width="15%">设备编号</th>
+						<th width="15%">使用人</th>
+						<th width="15%">归属部门</th>
+						<th width="15%">出厂编号</th>
+						<th width="10%">设备状态</th>
+						<th width="10%">设备类型</th>
+						<th width="10%">设备归属</th>
+						<th width="10%">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="r in rows">
+					
+						<td>{{r.equip_no}}</td>
+						<td>{{r.username}}</td>
+						<td>{{r.Dept_name}}</td>
+						<td>{{r.sn}}</td>
+						<td>
+							<div v-if="r.status ===  'A'">正常</div>
+						    <div v-else-if="r.status ===  'W'">已报废</div>
+						    <div v-else-if="r.status ===  'C'">将过时</div>
+						    <div v-else>未知</div>
+						</td>
+						<td>
+							<div v-if="r.type === 'C'">台式机</div>
+						    <div v-else-if="r.type === 'N'">笔记本</div>
+						    <div v-else-if="r.type === 'S'">服务器</div>
+						    <div v-else-if="r.type === 'L'">激光打</div>
+						    <div v-else-if="r.type === 'L'">激光打</div>
+						    <div v-else-if="r.type === 'P'">针式打</div>
+						    <div v-else-if="r.type === 'M'">喷墨打</div>
+						    <div v-else>未知</div>
+						</td>
+						<td>
+						    <div v-if="r.belong === 'Y'">国旅资产</div>
+						    <div v-else-if="r.belong === 'G'">挂靠设备</div>
+						    <div v-else-if="r.belong === 'N'">自有设备</div>
+						    <div v-else-if="r.belong === 'Z'">获赠资产</div>
+						    <div v-else>未知</div>
+						</td>						
+						<td>	
+							<!-- 添加详细按钮 -->
+				    			<a href="javascript:void(0)" v-bind:title="'价格:'+r.price+'\n型号:'+r.memo+'\n启用:'+r.startuse+'\n备注:'+r.memo"><span class="glyphicon glyphicon-list"></span></a>
+<!-- 				    			<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" title="价格:{{r.price}}<br/>型号:{{r.model}}<br/>启用:{{r.startuse}}<br/>备注:{{r.memo}}"><span class="glyphicon glyphicon-list"></span></a> 
+-->
+						
+							<!-- 添加修改按钮 -->
+							<a href="javascript:void(0)" @click="delone(r.id)">
+								<span data-toggle="tooltip" title="删除" class="glyphicon glyphicon-remove"></span>
+							</a>
+						</td>
+		
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+<script>
+	$(function () { 
+		$(function () { $("[data-toggle='tooltip']").tooltip(); });
+	});
+
+	function delone(id){
+		var conf = "确认删除 设备号:"+ id ;
+		alert(conf);
+	};	
+	
+	function onford(){
+        $.get("error",function(data){
+        		if(data.status=="error"){
+		        window.location.href="logout";
+        		};
+        });
+	};	
+
+new Vue({
+  el : '#main',
+    data : {
+      pageNo : "",
+      pageCount : "",
+      resultCount : "",
+      rows : ""
+      },
+	 beforeCreate:function(){
+ 	        var url="listjson";
+	        var that=this;
+	        $.get(url,function(data){
+			    that.pageNo=data.page;
+		        	that.pageCount=data.pageCount;
+		        	that.resultCount=data.total;
+		        	that.rows=data.rows; 
+	        }) 
+	  },
+	  methods:{
+       		changeData (page) {
+      			var url="listjson";
+		        var that=this;
+		        $.get(url,{ pageNo:page},function(data){
+		        	that.pageNo=data.page;
+		        	that.pageCount=data.pageCount;
+		        	that.resultCount=data.total;
+		        	that.rows=data.rows;
+		        })
+           }
+       } 
+}); 
+	
+</script>
+</html>

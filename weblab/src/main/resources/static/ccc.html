@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="webjars/layui/2.4.5/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="webjars/layui/2.4.5/css/layui.css">
+    <title>Title</title>
+
+</head>
+<body>
+
+<table class="layui-main layui-hide" id="test"></table>
+<script>
+    layui.use(['util', 'table'], function () {
+        var table = layui.table, util = layui.util;
+        table.render({
+            elem: '#test'
+            // , height: 300//表格总高
+            , url: 'getbakbypage'
+            , page: true //开启分页
+            , limit: 15 //设置pagesize，默认10
+            , cols: [[
+                {
+                    field: 'date', title: '日期', width: "15%",
+                    // templet: "<div>{{layui.util.toDateString(d.date, 'yyyy-MM-dd')}}</div>"
+                    templet: function (d) {
+                        return util.toDateString(d.date, 'yyyy-MM-dd');
+                    }
+                }
+                , {field: 'host', title: '主机名', width: "15%", sort: true}
+                , {
+                    field: 'file', title: '文件', width: "15%",
+                    templet: function (d) {
+                        return d.file == 1 ? "YES" : "NO";
+                    }
+                }
+                , {
+                    field: 'md5', title: 'md5', width: "15%",
+                    templet: function (d) {
+                        return d.md5 == 1 ? "YES" : "NO";
+                    }
+                }
+                , {field: 'mdstr', title: 'md字符串'}
+            ]]
+        });
+    });
+</script>
+</body>
+</html>

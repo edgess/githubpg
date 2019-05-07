@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="webjars/layui/2.4.5/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="webjars/layui/2.4.5/css/layui.css">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    (function ($) {
+        $.getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+    })(jQuery);
+
+    // var name = $.getUrlParam('name');
+    // var id = $.getUrlParam('id');
+
+    // window.onload = function () {
+    // }
+</script>
+<script>
+    layui.use(['util', 'form', 'laydate'], function () {
+        var form = layui.form, laydate = layui.laydate, util = layui.util;
+
+        $("#id").val($.getUrlParam('id'));
+        $("#mile").val($.getUrlParam('mile'));
+        $("#cash").val($.getUrlParam('cash'));
+        $("#price").val($.getUrlParam('price'));
+        $("#date").val(util.toDateString(parseInt($.getUrlParam('date')), 'yyyy-MM-dd'));
+
+        form.render();
+
+        form.on('submit(demo1)', function (data) {
+            // console.log(JSON.stringify(data));
+            $.ajax({
+                type: "POST",
+                url: "updateoilbyid",
+                data: data.field,
+                success: function (result) {
+                    // layer.msg(result);
+                    //当你在iframe页面关闭自身时
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                }
+            });
+            return false;
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#date' //指定元素
+        });
+
+    });
+</script>
+<form class="layui-form">
+    <input type="hidden" id="id" name="id">
+    <div class="layui-form-item">
+        <label class="layui-form-label">mile</label>
+        <div class="layui-input-block">
+            <input type="text" id="mile" name="mile" lay-verify="required|number" autocomplete="off" placeholder="mile"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">cash</label>
+        <div class="layui-input-block">
+            <input type="text" id="cash" name="cash" lay-verify="required|number" autocomplete="off" placeholder="cash"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">price</label>
+        <div class="layui-input-block">
+            <input type="text" id="price" name="price" lay-verify="required|number" autocomplete="off"
+                   placeholder="price"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">日期</label>
+        <div class="layui-input-block">
+            <input class="layui-input" placeholder="日期" id="date" name="date">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <button class="layui-btn" lay-submit lay-filter="demo1" style="width:100%;">提交</button>
+    </div>
+
+</form>
+
+</body>
+</html>

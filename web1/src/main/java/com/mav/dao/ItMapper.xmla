@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mysql  数据-->
+<mapper namespace="com.mav.dao.ItMapper">
+	<sql id="Base_Column_List">
+		ITequipment.id,
+		ITequipment.equip_no,
+		agent.Dept_name,
+		ITequipment.dept_id,
+		ITequipment.username,
+		ITequipment.class status,
+		ITequipment.type,
+		ITequipment.belong,
+		ITequipment.sn,
+		ITequipment.model,
+		ITequipment.price,
+		ITequipment.memo,
+		ITequipment.startuse
+	</sql>
+
+	<sql id="common_where_if">
+	
+		ITequipment.dept_id = agent.ID
+<!-- 		排除飞鹤、会展、旅汽 -->
+		and (agent.Dept_name NOT LIKE '%飞鹤航空%' and 
+			agent.Dept_name  NOT LIKE '%上航会展%' and
+			agent.Dept_name  NOT LIKE '%上航旅汽%')
+
+		<if test="status != ''">
+			and class = #{status}
+		</if>
+		<if test="type != ''">
+			and type = #{type}
+		</if>
+		<if test="belong != ''">
+			and belong = #{belong}
+		</if>
+		<if test="equip_no != ''">
+			and equip_no LIKE CONCAT(CONCAT('%',#{equip_no}),'%')
+		</if>
+		<if test="username != ''">
+			and username LIKE CONCAT(CONCAT('%',#{username}),'%')
+		</if>
+
+		<if test="sn != ''">
+			and sn LIKE CONCAT(CONCAT('%',#{sn}),'%')
+		</if>
+	</sql>
+
+	<select id="getAllItWithMap" resultType="Map">
+		select
+		<include refid="Base_Column_List" />
+		FROM ITequipment, agent
+		<where>
+			<include refid="common_where_if" />
+			<if test="dept_id != ''">
+<!-- 			查部门应该查order_id，然后用前包含，而不因该是 dept_id = #{dept_id} -->
+				and agent.order_id LIKE CONCAT((select order_id from agent where agent.id=#{dept_id}),'%')
+			</if>
+		</where>
+		order by ITequipment.id desc LIMIT #{pgstr},#{pgsiz}
+	</select>
+	
+	<select id="getMangerItWithMap" resultType="Map">
+		select
+		<include refid="Base_Column_List" />
+		FROM ITequipment, agent
+		<where>
+			<include refid="common_where_if" />
+			and agent.order_id in ('00','01','02','03','04','10','12','13','14','15')
+		</where>
+		order by ITequipment.id desc LIMIT #{pgstr},#{pgsiz}
+	</select>
+	
+	<select id="getAllItWithMapCount" resultType="INTEGER">
+		select
+		count(*)
+		FROM ITequipment, agent
+		<where>
+			<include refid="common_where_if" />
+			<if test="dept_id != ''">
+<!-- 			查部门应该查order_id，然后用前包含，而不因该是 dept_id = #{dept_id} -->
+				and agent.order_id LIKE CONCAT((select order_id from agent where agent.id=#{dept_id}),'%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="getMangerItWithMapCount" resultType="INTEGER">
+		select
+		count(*)
+		FROM ITequipment, agent
+		<where>
+			<include refid="common_where_if" />
+			and agent.order_id in ('00','01','02','03','04','10','12','13','14','15')
+		</where>
+	</select>
+	
+	<select id="getItById" parameterType="INTEGER" resultType="java.util.HashMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM ITequipment, agent
+		WHERE ITequipment.dept_id=agent.ID AND
+		ITequipment.id = #{id}
+	</select>
+	<update id="updateByPrimaryKeySelective" parameterType="STRING">
+	   update ITequipment
+		   <set>
+		   <trim suffixOverrides=",">
+				<if test="status != ''">
+					class = #{status},
+				</if>
+				<if test="type != ''">
+					type = #{type},
+				</if>
+				<if test="belong != ''">
+					belong = #{belong},
+				</if>
+				<if test="equip_no != ''">
+					equip_no = #{equip_no},
+				</if>
+				<if test="dept_id != ''">
+					dept_id = #{dept_id},
+				</if>
+					username = #{username},
+					sn = #{sn},
+					model = #{model},
+					memo = #{memo},							
+					price = #{price,jdbcType=INTEGER},		
+					startuse = #{startuse,jdbcType=DATE},
+		   </trim>					   
+		   </set>
+	   where id = #{id,jdbcType=INTEGER}
+	</update>
+	 
+	<insert id="insertSelective" parameterType="STRING">
+	  insert into ITequipment
+	  <trim prefix="(" suffix=")" suffixOverrides=",">
+					<if test="status != ''">
+						class,
+					</if>
+					<if test="type != ''">
+						type,
+					</if>
+					<if test="belong != ''">
+						belong,
+					</if>
+					<if test="equip_no != ''">
+						equip_no,
+					</if>
+					<if test="dept_id != ''">
+						dept_id,
+					</if>
+					<if test="dept_id != ''">
+						dept_1,
+					</if>
+						username,
+						sn,
+						model,
+						memo,							
+						price,		
+						startuse,
+						id,
+	  </trim>
+	  <trim prefix="values (" suffix=")" suffixOverrides=",">
+					<if test="status != ''">
+						#{status},
+					</if>
+					<if test="type != ''">
+						#{type},
+					</if>
+					<if test="belong != ''">
+						#{belong},
+					</if>
+					<if test="equip_no != ''">
+						#{equip_no},
+					</if>
+					<if test="dept_id != ''">
+						#{dept_id},
+					</if>
+					<if test="dept_id != ''">
+						#{dept_id},
+					</if>
+						#{username},
+						#{sn},
+						#{model},
+						#{memo},							
+						#{price,jdbcType=INTEGER},		
+						#{startuse,jdbcType=DATE},
+						#{id,jdbcType=INTEGER},
+	  </trim>
+	</insert>
+	
+	<select id="getItMaxId" resultType="INTEGER">
+		select max(id) from ITequipment
+	</select>
+	
+	<delete id="delItByID" parameterType="INTEGER">
+		delete from ITequipment where id = #{id}
+	</delete>	
+
+</mapper>

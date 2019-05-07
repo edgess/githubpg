@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>数据备份</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="../webjars/jquery/3.3.1/jquery.min.js"></script>
+	<script src="../webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="../webjars/vue/2.4.2/vue.min.js"></script>
+	<link rel="stylesheet" href="../webjars/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container" id="main">
+		<div class="jumbotron" >
+			<div class="row">
+				<div class="col-sm-10">
+					<h1>数据备份</h1>
+					<label>正常运行{{status.day}}天</label> <label>总容量{{status.totle}}B</label>
+					<label>已使用{{status.used}}B</label> <label>［{{status.usep}}］</label>
+				</div>
+				<div class="col-sm-2">
+					<br> <label>选择系统</label><br> <a
+						href="http://192.168.10.183:8888/it/">设备管理</a><br> <a
+						href="http://192.168.10.183:8888/weblab/">机房环境</a><br> <a
+						href="http://192.168.10.183:8888/weblab/bak.html">数据备份</a>
+				</div>
+			</div>
+		</div>
+ 			<table class="table table-hover table-condensed">
+				<thead>
+					<tr>
+						<th>主机名</th>
+						<th>文件存在</th>
+						<th>MD5校验</th>
+						<th>MD5码</th>
+						<th>日期</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="r in rows">
+						<td>{{r.host}}</td>
+						<td>{{r.file}}</td>
+						<td>{{r.md5}}</td>
+						<td>{{r.mdstr}}</td>
+						<td>{{r.date}}</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+</body>
+<script>
+/*  	$(document).ready(function() {
+   		$.getJSON("getbak", function(result) {
+			var v = new Vue({
+				el : '#main',
+				data : {
+					rows : result
+				}
+			})
+		}); 
+		$.getJSON("getstatus", function(result) {
+			var v = new Vue({
+				el : '#main',
+				data : {
+					status : result
+				}
+			})
+		});
+	});  */
+	
+
+		
+
+var vm = new Vue({
+	el : '#main',
+	data : {
+		status : "",
+ 		rows : "" 
+	  },
+	created:function(){
+	       var that=this;
+	       $.getJSON("../getstatus",function(result){
+				that.status=result;
+	       });
+ 	 	   $.getJSON("../getbak",function(result){
+				that.rows=result;
+	       });  
+	 }
+}); 
+			
+</script>
+</html>

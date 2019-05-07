@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>IT设备管理</title>
+<link rel="shortcut icon" href="images/favicon.ico" />
+<link rel="bookmark" href="images/favicon.ico" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <script src="script/jquery/3.2.1/jquery.min.js"></script>
+<script src="script/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<link href="script/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet"> -->
+<script src="script/jquery/3.2.1/jquery.min.js"></script>
+<script src="script/jquery-validate/1.17.0/jquery.validate.js"></script>
+<script src="script/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<link href="script/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<script>
+$(function(){
+$.getJSON("logincheck",function(result){
+	if(result.status=="101"){
+		window.location.href='login.html'
+	} 
+})
+})
+function aa() {
+	$.getJSON("getonejson", function(result) {
+		alert(result[0].equip_no);
+	});
+};
+</script>
+<body>
+	<button onclick="aa()">aa</button>
+</body>
+</html>
+
+

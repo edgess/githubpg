@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <context:property-placeholder location="classpath:jdbc.properties,classpath:msjdbc.properties"/>
+
+    <!--<context:component-scan base-package="com.edge.dao,com.edge.daomy,com.edge.daojpa"/>-->
+
+    <context:component-scan base-package="com.edge.dao.server"/>
+    <!--<context:component-scan base-package="com.edge.daomy"/>-->
+    <!--<context:component-scan base-package="com.edge.daojpa"/>-->
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${jdbc.user}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+        <property name="driverClassName" value="${jdbc.driverClass}"></property>
+        <property name="url" value="${jdbc.mybaUrl}"></property>
+        <property name="testOnBorrow" value="false"></property>
+        <property name="testWhileIdle" value="true"></property>
+        <property name="validationQuery" value="SELECT 1"></property>
+    </bean>
+
+    <bean id="dataSource2" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${ms.user}"></property>
+        <property name="password" value="${ms.password}"></property>
+        <property name="driverClassName" value="${ms.driverClass}"></property>
+        <property name="url" value="${ms.jdbcUrl}"></property>
+        <property name="testOnBorrow" value="false"></property>
+        <property name="testWhileIdle" value="true"></property>
+        <property name="validationQuery" value="SELECT 1"></property>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--当mybatis的xml文件和mapper接口不在相同包下时，需要用mapperLocations属性指定xml文件的路径。 *是个通配符，代表所有的文件，**代表所有目录下 -->
+        <!--<property name="mapperLocations" value="classpath:com/mav/dao/*.xml"></property>-->
+        <property name="mapperLocations" value="classpath:mybatis/*.xml"></property>
+
+        <!--也可以引入mybatis配置文件 -->
+        <!--<property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"></property> -->
+    </bean>
+
+    <bean id="sqlSessionFactory2" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource2"/>
+        <!--当mybatis的xml文件和mapper接口不在相同包下时，需要用mapperLocations属性指定xml文件的路径。 *是个通配符，代表所有的文件，**代表所有目录下 -->
+        <!--<property name="mapperLocations" value="classpath:com/mav/dao/*.xml"></property>-->
+        <property name="mapperLocations" value="classpath:mybatismy/*.xml"></property>
+
+        <!--也可以引入mybatis配置文件 -->
+        <!--<property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"></property> -->
+    </bean>
+
+    <!--通过扫描的模式，扫描目录在dao目录下的mapper-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.edge.dao.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.edge.daomy.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory2"/>
+    </bean>
+
+
+    <!--jpa-->
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"></bean>
+        </property>
+        <property name="packagesToScan" value="com.edge.daojpa"></property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+                <prop key="hibernate.show_sql">false</prop><!--执行的时候是否显示SQL-->
+                <prop key="hibernate.format_sql">true</prop><!--执行的时候SQL是否格式化-->
+                <prop key="hibernate.hbm2ddl.auto">update</prop><!--如果没有是否创建-->
+            </props>
+        </property>
+    </bean>
+    <!-- 配置事务 -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"></property>
+    </bean>
+
+    <!-- 配置 SpringData -->
+    <jpa:repositories base-package="com.edge.daojpa"
+                      entity-manager-factory-ref="entityManagerFactory"></jpa:repositories>
+
+</beans>

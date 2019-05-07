@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+	<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css">
+<title>IT设备管理</title>
+</head>
+<body>
+	<div class="container">
+		<div class="col-sm-offset-3 col-sm-4">
+			<form id="ff" class="form-horizontal" action="dologin" method="POST">
+				<div class="form-group">
+					<div id="loginerr1" class="row">
+						<label class="control-label col-sm-4">用户名</label>
+						<div class="col-sm-8">
+							<input class="form-control" type="text" name="name"
+								placeholder="请输入用户名" />
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div id="loginerr2" class="row">
+						<label class="control-label col-sm-4">密码</label>
+						<div class="col-sm-8">
+							<input class="form-control" type="password" name="pswd"
+								placeholder="请输入密码" />
+						</div>
+					</div>
+				</div>
+				<!--<div class="form-group">-->
+					<!--<div id="codeerr" class="row">-->
+						<!--<label class="control-label col-sm-4">验证码</label>-->
+						<!--<div class="col-sm-8">-->
+							<!--<input class="form-control" name="authCode" type="text"-->
+								<!--placeholder="请输入验证码" />-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="form-group">-->
+					<!--<div class="row">-->
+						<!--&lt;!&ndash;这里img标签的src属性的值为后台实现图片验证码方法的请求地址&ndash;&gt;-->
+						<!--<label class="control-label col-sm-4"></label>-->
+						<!--<div class="col-sm-8">-->
+							<!--<label class="control-label"> <img src="authCode"-->
+								<!--id="codeImage" onclick="chageCode()" title="图片看不清？点击重新得到验证码"-->
+								<!--style="cursor: pointer;" />-->
+							<!--</label> <label class="control-label">&nbsp;&nbsp;</label> <label-->
+								<!--class="control-label"> <a onclick="chageCode()"><span-->
+									<!--class="glyphicon glyphicon-refresh"></span></a>-->
+							<!--</label>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-sm-4"></label>
+						<div class="col-sm-8">
+							<button class="control-label btn btn-primary" type="submit">登录</button>
+
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+
+

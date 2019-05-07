@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+<title>机房环境</title>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="1200">
+
+	<script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+	<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="webjars/vue/2.4.2/vue.min.js"></script>
+	<link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="webjars/echarts/4.1.0/echarts.min.js"></script>
+
+</head>
+<!--  <body style="height: 100%; margin: 0"> -->
+<body>
+	<div class="container">
+		<div class="jumbotron" id="main">
+			<div class="row">
+				<div class="col-sm-10">
+					<h1>机房环境</h1>
+					<label>最后一次测量时间 {{status.time}} </label> <label>---温度 {{status.tp}}</label> <label>---湿度 {{status.hd}}</label>
+					<br><label>选择查看周期</label>
+					<a href="javascript:void(0)" id="day">近24小时</a>
+					<a href="javascript:void(0)" id="week">近7天</a>
+					<a href="javascript:void(0)" id="month">近30天</a>
+				</div>
+				<div class="col-sm-2">
+					<br> <label>选择系统</label><br>
+					<a href="http://192.168.10.183:8888/it/">设备管理</a><br>
+					<a href="http://192.168.10.183:8888/weblab/">机房环境</a><br>
+					<a href="http://192.168.10.183:8888/weblab/bak.html">数据备份</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="cheart" style="height: 500%"></div>
+	
+	</div>
+
+	<script type="text/javascript">
+	var vm = new Vue({
+		el : '#main',
+		data : {
+			status : ""
+		  },
+		created:function(){
+		       var that=this;
+		       $.getJSON("getlastone",function(result){
+					that.status=result;
+		       });
+		 }
+	});
+	
+		var myChart = echarts.init(document.getElementById("cheart"));
+		myChart.setOption({
+/* 			title : {
+				text : '机房环境'
+			}, */
+			tooltip : {
+				trigger : 'axis'
+			},
+			legend : {
+				data : [ '温度', '湿度' ]
+			},
+			grid : {
+				left : '3%',
+				right : '4%',
+				bottom : '3%',
+				containLabel : true
+			},
+			// 			toolbox: {
+			// 			    feature: {
+			// 			        saveAsImage: {}
+			// 			    }
+			// 			},
+			xAxis : {
+				type : 'category',
+				boundaryGap : false,
+				data : []
+			},
+			yAxis : {
+				type : 'value'
+			},
+			series : [ {
+				name : '温度',
+				type : 'line',
+				/* 				stack : '总量', */
+				data : []
+			}, {
+				name : '湿度',
+				type : 'line',
+				/* 				stack : '总量', */
+				data : []
+			} ]
+		});
+		function getdata(seturl) {
+			$.ajax({
+				type : "post",
+				async : true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+				url : seturl, //请求发送到TestServlet处
+				data : {},
+				dataType : "json", //返回数据形式为json
+				success : function(data) {
+					myChart.setOption({
+						xAxis : {
+							data : data.categories
+						},
+						series : [ {
+							// 根据名字对应到相应的系列
+							name : '温度',
+							data : data.tp
+						}, {
+							// 根据名字对应到相应的系列
+							name : '湿度',
+							data : data.hd
+						} ]
+					});
+				}
+			});
+		}
+		$(document).ready(function() {
+			$("#day").click(function() {
+				getdata("getonedaylog");
+			});
+			$("#week").click(function() {
+				getdata("getoneweeklog");
+			});
+			$("#month").click(function() {
+				getdata("getonemonthlog");
+			});
+			getdata("getonedaylog");
+		});
+	</script>
+</body>
+</html>
