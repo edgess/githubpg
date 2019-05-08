@@ -3,6 +3,9 @@ package com.example.demo1.services;
 import com.example.demo1.entity.Oil;
 import com.example.demo1.mapper.OilMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,11 +23,11 @@ public class OilService {
         oilMapper.insertOils(oils);
     }
 
+    @Cacheable(value = "HelloWorldCache", key = "'oil_'+#id")
     public Oil queryById(int id) {
         return oilMapper.queryById(id);
     }
 
-    //@Cacheable(value = {"aaa"})
     public List<Oil> getall() {
         return oilMapper.getall();
     }

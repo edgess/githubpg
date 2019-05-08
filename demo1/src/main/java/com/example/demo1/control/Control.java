@@ -4,8 +4,11 @@ import com.example.demo1.entity.UserExample;
 import com.example.demo1.services.OilService;
 import com.example.demo1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.util.Map;
 
 @Controller
@@ -18,10 +21,17 @@ public class Control {
 
 
 
-    @RequestMapping("/oil/get")
-    public String oilget(Map map) {
+    @RequestMapping("/oil/getall")
+    public String getall(Map map) {
         map.put("oils", oilservice.getall());
         return "oil";
+    }
+
+    @RequestMapping("/oil/queryById")
+    @ResponseBody
+    public Object queryById(Integer i) {
+
+        return oilservice.queryById(i);
     }
 
     @RequestMapping("/user/get")

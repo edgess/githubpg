@@ -11,6 +11,7 @@
 <table border="1">
     <tr th:each="oil: ${oils}">
         <!--<td th:each="entry: ${add}" th:text="${entry.value}"></td>-->
+        <td th:text="${oil.id}"></td>
         <td th:text="${oil.mile}"></td>
         <td th:text="${oil.cash}"></td>
         <td th:text="${oil.price}"></td>
