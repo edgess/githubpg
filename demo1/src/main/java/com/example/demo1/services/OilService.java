@@ -3,9 +3,7 @@ package com.example.demo1.services;
 import com.example.demo1.entity.Oil;
 import com.example.demo1.mapper.OilMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
