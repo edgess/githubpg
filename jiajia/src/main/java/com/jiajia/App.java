@@ -34,9 +34,8 @@ public class App {
         String fstring = jsob.toJSONString(oils.get(0));
         System.out.println("fastjson string----" + fstring);
 
-
         // 1. 创建缓存管理器
-        CacheManager cacheManager = CacheManager.create("C:\\Users\\Admini\\IdeaProjects\\pg\\jiajia\\src\\main\\resources\\ehcache.xml");
+        CacheManager cacheManager = CacheManager.create(App.class.getClassLoader().getResource("ehcache.xml"));
 
         // 2. 获取缓存对象
         Cache cache = cacheManager.getCache("HelloWorldCache");
