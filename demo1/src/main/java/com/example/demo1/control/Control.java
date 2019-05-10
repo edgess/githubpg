@@ -21,9 +21,11 @@ public class Control {
 
 
 
-    @RequestMapping("/oil/getall")
+    @RequestMapping(value = "/oil/getall",produces = "text/html; charset=UTF-8")
     public String getall(Map map) {
         map.put("oils", oilservice.getall());
+        map.put("js", "<script>alert('请正确输入！');</script>");
+        map.put("js2", "alert(123);");
         return "oil";
     }
 
