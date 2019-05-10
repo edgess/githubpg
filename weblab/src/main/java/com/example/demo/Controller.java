@@ -26,9 +26,9 @@ public class Controller {
     // space为多少采样数量取平均值，sc定义x轴中的显示的时间样式
     public String avg(List<Lab> labs, int sapce, String sc) {
         SimpleDateFormat weektime = new SimpleDateFormat(sc);
-        List<String> categories = new ArrayList<String>();
-        List<String> tp = new ArrayList<String>();
-        List<String> hd = new ArrayList<String>();
+        List<String> categories = new ArrayList();
+        List<String> tp = new ArrayList();
+        List<String> hd = new ArrayList();
         for (int i = 0; i < (labs.size() / sapce); i++) {
             int sumt = 0;
             int sumh = 0;
