@@ -1,6 +1,8 @@
 package com.example.demo1.services;
 
 import com.example.demo1.entity.Oil;
+import com.example.demo1.mainslave.DataSourceContextHolder;
+import com.example.demo1.mainslave.TargetDataSource;
 import com.example.demo1.mapper.OilMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,8 +28,11 @@ public class OilService {
         return oilMapper.queryById(id);
     }
 
+    @TargetDataSource(value = "first")
     public List<Oil> getall() {
+        DataSourceContextHolder.setDataSource("first");
         return oilMapper.getall();
+
     }
 
 }

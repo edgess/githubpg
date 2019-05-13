@@ -1,7 +1,4 @@
-package com.jiajia.mainslave;
-
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
+package com.example.demo1.mainslave;
 
 import java.lang.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.jiajia;
+package com.example.demo1.mainslave;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 
 @Component
-@MapperScan(basePackages = "com.jiajia.mapper")
+@MapperScan(basePackages = "com.example.demo1.mapper")
 public class MyBatisConfig {
 
     @Autowired
-//    @Qualifier("multiDataSource")
+    @Qualifier("multiDataSource")
     private DataSource dataSource;
 
     @Bean

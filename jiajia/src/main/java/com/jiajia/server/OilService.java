@@ -1,6 +1,7 @@
 package com.jiajia.server;
 
 import com.jiajia.entity.Oil;
+import com.jiajia.mainslave.TargetDataSource;
 import com.jiajia.mapper.OilMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ public class OilService {
     }
 
     //@Cacheable(value = {"aaa"})
+    @TargetDataSource(value = "first")
     public List<Oil> getall() {
         return oilMapper.getall();
     }

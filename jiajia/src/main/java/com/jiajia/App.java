@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class App {
@@ -51,5 +52,11 @@ public class App {
         System.out.println("ehcache=="+value);
         System.out.println("Gson ech----"+value.getObjectValue());
 
+        Oil noil =new Oil();
+        noil.setCash(100);
+        noil.setDate(new Date());
+        noil.setMile(100);
+        noil.setPrice(100);
+        oilService.insertOil(noil);
     }
 }
