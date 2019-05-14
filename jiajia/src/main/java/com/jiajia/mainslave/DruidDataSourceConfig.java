@@ -1,7 +1,6 @@
 package com.jiajia.mainslave;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.jiajia.mainslave.MultiRouteDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 

@@ -12,14 +12,14 @@ import java.lang.reflect.Method;
 @Component
 public class DynamicDataSourceAspect {
 
-//    @Around("execution(public * com.jiajia..*.*(..))")
-    @Around("within(@com.example.demo1.services.OilService *) && @annotation(TargetDataSource)")
+
+    @Around("execution(* com.example.demo1.services.*Service.*(..))")
+//    @Around("within(@com.example.demo1.services.OilService *) && @annotation(TargetDataSource)")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
-        System.out.println("aop");
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
         Method targetMethod = methodSignature.getMethod();
-        if(targetMethod.isAnnotationPresent(TargetDataSource.class)){
-            String targetDataSource = targetMethod.getAnnotation(TargetDataSource.class).value() ;
+        if (targetMethod.isAnnotationPresent(TargetDataSource.class)) {
+            String targetDataSource = targetMethod.getAnnotation(TargetDataSource.class).value();
             DataSourceContextHolder.setDataSource(targetDataSource);
         }
         Object result = pjp.proceed();

@@ -30,5 +30,4 @@ public class OilService {
     public List<Oil> getall() {
         return oilMapper.getall();
     }
-
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 @Component
 public class DruidDataSourceConfig {
 
-    @Bean
+    //@Bean
     public DataSource dataSource() {
         DruidDataSource datasource = new DruidDataSource();
         datasource.setUrl("jdbc:mysql://192.168.10.183/mybatis");
@@ -25,7 +25,7 @@ public class DruidDataSourceConfig {
         return datasource;
     }
 
-    @Bean
+    //@Bean
     public DataSource slavedataSource() {
         DruidDataSource datasource = new DruidDataSource();
         datasource.setUrl("jdbc:mysql://192.168.10.186/mybatis");

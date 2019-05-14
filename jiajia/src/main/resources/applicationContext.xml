@@ -2,6 +2,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
     <context:component-scan base-package="com.jiajia"/>
+
+    <!--<bean id="usefulAspect" class="com.jiajia.mainslave.DynamicDataSourceAspect"></bean>-->
+    <!--<aop:config>-->
+    <!--<aop:aspect id="myAspect" ref="usefulAspect">-->
+    <!--<aop:pointcut id="a" expression="execution(* com.jiajia.server.*Service.*(..))"/>-->
+    <!--<aop:around pointcut-ref="a" method="around"/>-->
+    <!--</aop:aspect>-->
+    <!--</aop:config>-->
+
+    <!-- 开启aop注解方式，此步骤s不能少，这样java类中的aop注解才会生效，否则需要采用上面的xml配置-->
+    <aop:aspectj-autoproxy/>
 </beans>

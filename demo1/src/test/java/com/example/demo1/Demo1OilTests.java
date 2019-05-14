@@ -2,13 +2,11 @@ package com.example.demo1;
 
 import com.example.demo1.entity.Oil;
 import com.example.demo1.services.OilService;
-import com.example.demo1.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,6 +62,12 @@ public class Demo1OilTests {
     //querybyid
     public void contextLoads3() {
         System.out.println(oilService.queryById(101));
+    }
+
+    @Test
+    //querybyid
+    public void contextLoads5() {
+        System.out.println(oilService.getall());
     }
 
 

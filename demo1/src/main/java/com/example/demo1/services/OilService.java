@@ -23,16 +23,15 @@ public class OilService {
         oilMapper.insertOils(oils);
     }
 
-    @Cacheable(value = "HelloWorldCache", key = "'oil_'+#id")
+    //    @Cacheable(value = "HelloWorldCache", key = "'oil_'+#id")
+    @TargetDataSource(value = "first")
     public Oil queryById(int id) {
         return oilMapper.queryById(id);
     }
 
     @TargetDataSource(value = "first")
     public List<Oil> getall() {
-        DataSourceContextHolder.setDataSource("first");
         return oilMapper.getall();
-
     }
 
 }
