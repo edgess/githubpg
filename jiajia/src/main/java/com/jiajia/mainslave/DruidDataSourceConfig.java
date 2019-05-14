@@ -41,10 +41,11 @@ public class DruidDataSourceConfig {
     public MultiRouteDataSource exampleRouteDataSource() {
         MultiRouteDataSource multiDataSource = new MultiRouteDataSource();
         Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put("master", dataSource());
-        targetDataSources.put("first", slavedataSource());
+//        targetDataSources.put("master", dataSource());
+        targetDataSources.put("slave", slavedataSource());
         multiDataSource.setTargetDataSources(targetDataSources);
         multiDataSource.setDefaultTargetDataSource(dataSource());
+        multiDataSource.setLenientFallback(true);
         return multiDataSource;
     }
 }

@@ -26,7 +26,7 @@ public class OilService {
     }
 
     //@Cacheable(value = {"aaa"})
-    @TargetDataSource(value = "first")
+    @TargetDataSource(value = "slave")
     public List<Oil> getall() {
         return oilMapper.getall();
     }

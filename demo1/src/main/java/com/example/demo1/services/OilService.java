@@ -24,7 +24,7 @@ public class OilService {
     }
 
     //    @Cacheable(value = "HelloWorldCache", key = "'oil_'+#id")
-    @TargetDataSource(value = "first")
+    //    @TargetDataSource(value = "first")
     public Oil queryById(int id) {
         return oilMapper.queryById(id);
     }

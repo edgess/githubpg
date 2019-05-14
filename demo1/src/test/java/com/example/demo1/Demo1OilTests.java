@@ -59,14 +59,8 @@ public class Demo1OilTests {
     }
 
     @Test
-    //querybyid
-    public void contextLoads3() {
-        System.out.println(oilService.queryById(101));
-    }
-
-    @Test
-    //querybyid
     public void contextLoads5() {
+        System.out.println(oilService.queryById(101));
         System.out.println(oilService.getall());
     }
 

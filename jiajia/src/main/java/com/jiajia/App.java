@@ -1,6 +1,5 @@
 package com.jiajia;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.jiajia.entity.Oil;
@@ -11,7 +10,6 @@ import net.sf.ehcache.Element;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

@@ -16,5 +16,6 @@ public class SpringTest {
     @Test
     public void test1() {
         System.out.println(oilService.getall());
+        System.out.println(oilService.queryById(12));
     }
 }
