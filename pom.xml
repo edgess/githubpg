@@ -22,7 +22,7 @@
         <module>web1</module>
         <module>web5</module>
         <module>weblab</module>
-        <module>springboot-dubbo-server</module>
-        <module>springboot-dubbo-client</module>
+        <module>dubbo/springboot-dubbo-server</module>
+        <module>dubbo/springboot-dubbo-client</module>
     </modules>
 </project>

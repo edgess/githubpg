@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -39,23 +40,24 @@ public class Control {
 //        return "success";
 //    }
 
-    //    @RequestMapping("updata")
+//    @RequestMapping("updata")
 //    public String updata(MultipartFile file) throws IOException {
 ////        if (file.isEmpty()) {
 ////            return "updata error,select file";
 ////        }
 //
 //        String fileName = file.getOriginalFilename();
-//        InputStream in = file.getInputStream();
-//        String filePath = "/Users/edge/Desktop/ftp/";
-//        File dest = new File(filePath + fileName);
-//
-//        try {
-//            file.transferTo(dest);
-//            return "updata success";
-//        } catch (IOException e) {
-//
-//        }
+//        System.out.println(fileName);
+////        InputStream in = file.getInputStream();
+////        String filePath = "/Users/edge/Desktop/ftp/";
+////        File dest = new File(filePath + fileName);
+////
+////        try {
+////            file.transferTo(dest);
+////            return "updata success";
+////        } catch (IOException e) {
+////
+////        }
 //        return "updata error";
 //
 //    }
@@ -185,21 +187,22 @@ public class Control {
 //            @ApiImplicitParam(name = "multipartFile", value = "文件", required = true)
     })
     @PostMapping(value = "uploadfile", headers = "content-type=multipart/form-data")
-    public Result uploadfile(@RequestParam(value = "path", required = false, defaultValue = "/") String path, MultipartFile multipartFile) throws IOException {
+    public Result uploadfile(@RequestParam(value = "path", required = false, defaultValue = "/") String path,
+                             MultipartFile file) throws IOException {
         Result result = new Result();
         if (!saveFile.existDirectory(path)) {
             result.setSuccess(false);
             result.setMsg("path not exist");
             return result;
         }
-        String filename = multipartFile.getOriginalFilename();
+        String filename = file.getOriginalFilename();
         if (saveFile.existFile(path, filename)) {
             result.setSuccess(false);
             result.setMsg("file is exist");
             return result;
         }
         // 上传
-        saveFile.uploadFile(path, filename, multipartFile.getInputStream());
+        saveFile.uploadFile(path, filename, file.getInputStream());
         return result;
     }
 
