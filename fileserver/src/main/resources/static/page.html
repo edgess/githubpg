@@ -2,58 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>updata</title>
+    <title>Upload File Page</title>
     <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
     <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
-    <h1>updata</h1>
-    <form class="form-horizontal" method="post" action="/uploadfile" enctype="multipart/form-data">
+    <h1>Upload File</h1>
+    <!--<form class="form-horizontal" enctype="multipart/form-data">-->
+    <!--<div class="control-group">-->
+    <!--<div class="controls">-->
+    <!--&lt;!&ndash;<label for="file1" class=" btn btn-default">更换头像</label>&ndash;&gt;-->
+    <!--<input id="file1" type="file" name="file" class="btn">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="control-group">-->
+    <!--<div class="controls">-->
+    <!--<button id="sub" class="btn">submit</button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="control-group">-->
+    <!--<div class="controls">-->
+    <!--<div id="pc">0</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</form>-->
+
+    <form class="form-horizontal" enctype="multipart/form-data">
         <div class="control-group">
-            <div class="controls">
-                <input type="file" name="file"><br>
-            </div>
+            <label for="upload_file" class="control-label">上传文件</label>
         </div>
         <div class="control-group">
-            <div class="controls">
-                <button id="sub" class="btn">submit</button>
-            </div>
+            <input type="file" class="form-control" id="upload_file" name="file"
+                   style="display: none;" onchange="change();">
+            <input type="text" class="form-control" id="upload_file_tmp" name=""
+                   readonly="readonly" onclick="upload_file.click(); ">
         </div>
         <div class="control-group">
-            <div class="controls">
-                <div id="pc">0</div>
+            <button id="sub" class="btn btn-primary">提交</button>
+            <label class="control-label">完成情况</label>
+            <label id="pc" class="control-label">0</label>
+        </div>
+        <div class="control-group">
+            <div class="progress">
+                <div class="progress-bar" style="width: 0%;">
+                </div>
             </div>
         </div>
     </form>
-    <div class="progress">
-        <div class="progress-bar" style="width: 0%;">
-        </div>
-    </div>
-    <form class="form-horizontal">
-        <div class="control-group">
-            <label class="control-label" for="inputEmail">Email</label>
-            <div class="controls">
-                <input type="text" id="inputEmail" placeholder="Email">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="inputPassword">Password</label>
-            <div class="controls">
-                <input type="password" id="inputPassword" placeholder="Password">
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <label class="checkbox">
-                    <input type="checkbox"> Remember me
-                </label>
-                <button type="submit" class="btn">Sign in</button>
-            </div>
-        </div>
-    </form>
+
     <script>
+        function change() {
+            document.getElementById("upload_file_tmp").value = document.getElementById("upload_file").value;
+            $("#pc").text("0");
+        }
+
         $("#sub").click(function () {
             var fd = new FormData($("form")[0]);
             $.ajax({
