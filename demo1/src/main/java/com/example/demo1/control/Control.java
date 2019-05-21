@@ -36,6 +36,12 @@ public class Control {
         return oilservice.queryById(i);
     }
 
+    @RequestMapping("/oil/queryById1")
+    @ResponseBody
+    public Object queryById1() {
+        return oilservice.queryById(379);
+    }
+
     @RequestMapping("/user/get")
     public String userget(Map map) {
         map.put("users", userService.selectByExample(new UserExample()));
