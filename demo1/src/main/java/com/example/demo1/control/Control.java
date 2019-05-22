@@ -1,14 +1,18 @@
 package com.example.demo1.control;
 
+import com.example.demo1.entity.Oil;
 import com.example.demo1.entity.UserExample;
 import com.example.demo1.services.OilService;
 import com.example.demo1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -27,6 +31,18 @@ public class Control {
         map.put("js", "<script>alert('请正确输入！');</script>");
         map.put("js2", "alert(123);");
         return "oil";
+    }
+
+    @RequestMapping(value = "/oil/getall2")
+    @ResponseBody
+    public Object getall2() {
+        List<Oil> re1=oilservice.getall();
+        List<Oil> re = new ArrayList<>();
+        for (int i = 0; i <25 ; i++) {
+            Oil re2=re1.get(i);
+            re.add(re2);
+        }
+        return re;
     }
 
     @RequestMapping("/oil/queryById")
