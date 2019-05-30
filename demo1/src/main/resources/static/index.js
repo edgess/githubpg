@@ -1,9 +1,14 @@
 // var sum = require('./sum');
 
-import $ from 'jquery';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.js';
-import Vue from 'vue';
+// import $ from 'jquery';
+// import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/js/bootstrap.js';
+// import Vue from 'vue';
+
+var $ = require('jquery');
+require('bootstrap/dist/css/bootstrap.css');
+require('bootstrap/dist/js/bootstrap.js');
+var Vue = require('vue/dist/vue.js');
 
 var app = new Vue({
     el: '#app',
@@ -20,6 +25,6 @@ var app = new Vue({
 });
 
 $("#btn").click(function () {
-   alert("123");
-   return false;
+    alert("123");
+    return false;
 });

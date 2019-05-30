@@ -10,16 +10,18 @@ module.exports = {
             // {test: /\.(png|jpg|gif)$/i, use: 'url-loader?limit=8192'},
         ]
     },
+    //在此定义打包bootstrap需要用jq，仅供打包使用，如需使用入口文件中还需添加jq
     plugins: [
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
             "window.jQuery": "jquery"
         })
-    ],
-    resolve: {
-        alias: {
-            'vue$': 'vue/dist/vue.esm.js'
-        }
-    }
+    ]
+    //使用import vue，需要用此resolve，如使用require无需此配置
+    // resolve: {
+    //     alias: {
+    //         'vue$': 'vue/dist/vue.esm.js'
+    //     }
+    // }
 };
