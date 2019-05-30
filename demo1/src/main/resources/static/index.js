@@ -5,10 +5,10 @@
 // import 'bootstrap/dist/js/bootstrap.js';
 // import Vue from 'vue';
 
-var $ = require('jquery');
+// var $ = require('jquery');
+// var Vue = require('vue/dist/vue.js');
 require('bootstrap/dist/css/bootstrap.css');
 require('bootstrap/dist/js/bootstrap.js');
-var Vue = require('vue/dist/vue.js');
 
 var app = new Vue({
     el: '#app',
