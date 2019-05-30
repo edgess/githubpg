@@ -4,7 +4,7 @@
 // import 'bootstrap/dist/css/bootstrap.css';
 // import 'bootstrap/dist/js/bootstrap.js';
 // import Vue from 'vue';
-
+//
 // var $ = require('jquery');
 // var Vue = require('vue/dist/vue.js');
 require('bootstrap/dist/css/bootstrap.css');

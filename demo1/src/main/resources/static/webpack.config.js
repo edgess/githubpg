@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
-    entry: {index: './index.js', login: './login.js'},
+    entry: {index: './index.js', login: './login.js', oil: './oil.js'},
     output: {filename: '[name][hash:6].bundle.js', path: __dirname + '/dist'},
     module: {
         rules: [
@@ -24,23 +24,35 @@ module.exports = {
         //输出模板
         new HtmlWebpackPlugin({
             chunks:['index'], //添加引入的js,也就是entry中的key
-            hash:true, //向html引入的src链接后面增加一段hash值,消除缓存
-            minify:{
-                collapseWhitespace:true //折叠空白区域 也就是压缩代码
-            },
+            // hash:true, //向html引入的src链接后面增加一段hash值,消除缓存
+            // minify:{
+            //     collapseWhitespace:true //折叠空白区域 也就是压缩代码
+            // },
             title: 'index page',
             filename: 'index.html',
             template: 'index.html' //模板地址
         }),
         new HtmlWebpackPlugin({
             chunks:['login'], //添加引入的js,也就是entry中的key
-            hash:true, //向html引入的src链接后面增加一段hash值,消除缓存
-            minify:{
-                collapseWhitespace:true //折叠空白区域 也就是压缩代码
-            },
+            // hash:true, //向html引入的src链接后面增加一段hash值,消除缓存
+            // minify:{
+            //     collapseWhitespace:true //折叠空白区域 也就是压缩代码
+            // },
             title: 'login page',
             filename: 'login.html',
             template: 'login.html' //模板地址
+        }),
+        new HtmlWebpackPlugin({
+            chunks:['oil'], //添加引入的js,也就是entry中的key
+            // hash:true, //向html引入的src链接后面增加一段hash值,消除缓存
+            // minify:{
+            //     collapseWhitespace:true //折叠空白区域 也就是压缩代码
+            // },
+            // title: 'oil page',
+            filename: 'oil.html',
+            //使用模板加载器（jsp，thymeleaf ），生成模板
+            //npm install raw-loader --save-dev
+            template: 'raw-loader!./oil.html' //模板地址
         }),
         //打包前清理dist目录
         new CleanWebpackPlugin(),

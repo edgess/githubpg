@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="webjars/layui/2.4.5/layui.js" charset="utf-8"></script>-->
+    <!--<link rel="stylesheet" href="webjars/layui/2.4.5/css/layui.css">-->
+    <title>oil</title>
+</head>
+<body>
+<table border="1">
+    <tr th:each="oil: ${oils}">
+        <!--<td th:each="entry: ${add}" th:text="${entry.value}"></td>-->
+        <td th:text="${oil.id}"></td>
+        <td th:text="${oil.mile}"></td>
+        <td th:text="${oil.cash}"></td>
+        <td th:text="${oil.price}"></td>
+        <td th:text="${oil.date}"></td>
+    </tr>
+</table>
+
+<!--<div th:text="${data}"></div>-->
+
+</body>
+</html>

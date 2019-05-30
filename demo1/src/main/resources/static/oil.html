@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>page</title>
-    <script src="oil5d23d0.bundle.js"></script>
 </head>
 <body>
 <button id="btn" class="btn btn-default">oil</button>
 <table class="table table-hover table-condensed">
     <tr th:each="oil: ${oils}">
+        <!--<td th:each="entry: ${add}" th:text="${entry.value}"></td>-->
         <td th:text="${oil.id}"></td>
         <td th:text="${oil.mile}"></td>
         <td th:text="${oil.cash}"></td>
