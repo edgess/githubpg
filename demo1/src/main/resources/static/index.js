@@ -25,6 +25,6 @@ var app = new Vue({
 });
 
 $("#btn").click(function () {
-    alert("123");
+    alert("index");
     return false;
 });
