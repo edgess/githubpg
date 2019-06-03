@@ -12,12 +12,13 @@ module.exports = {
             {test: /\.(woff2|woff|ttf|eot|svg|)$/, use: 'url-loader'},
             // /i 表示不区分大小写
             //不改名 &name=[name].[ext]
-            {test: /\.(png|jpg|gif)$/i, use: 'url-loader?limit=8192'},
+            {test: /\.(png|jpg|gif)$/, use: 'url-loader?limit=8192'},
+            {test: /\.(vue)$/, use: 'vue-loader'},
         ]
     },
     resolve:{
         alias:{
-            "vue$":"vue/dist/vue.esm.js"
+            // "vue$":"vue/dist/vue.min.js"
         }
     },
     plugins: [
@@ -26,7 +27,7 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
-            "window.jQuery": "jquery"
+            "window.jQuery": "jquery",
             // Vue: ['vue/dist/vue.esm.js', 'default']
         }),
         //输出模板
