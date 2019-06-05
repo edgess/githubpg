@@ -9,7 +9,7 @@
 // var Vue = require('vue/dist/vue.js');
 require('bootstrap/dist/css/bootstrap.css');
 require('bootstrap/dist/js/bootstrap.js');
-import Vue from "vue";
+import Vue from "vue/dist/vue.esm.js";
 
 var app = new Vue({
     el: '#app',
@@ -19,7 +19,7 @@ var app = new Vue({
     created: function () {
         // alert("123");
         var that = this;
-        $.getJSON("http://localhost:8844/oil/queryById1", function (result) {
+        $.getJSON("http://localhost:8855/oil/queryById1", function (result) {
             that.message = result;
         });
     }

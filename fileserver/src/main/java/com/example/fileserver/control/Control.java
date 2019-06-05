@@ -131,7 +131,7 @@ public class Control {
     @PostMapping("listdir")
     public Result listdir(@RequestParam(value = "path", required = false, defaultValue = "/") String path) {
         Result result = new Result();
-        logger.error("listdir logger!");
+//        logger.error("listdir logger!");
         if (saveFile.existDirectory(path)) {
             result.setData(saveFile.listDirectory(path));
             return result;
