@@ -13,7 +13,7 @@ public class StartLoader implements ApplicationRunner {
         System.out.println("java -jar fileserver.jar --fileserver.mode=SYS (D:\\smb) def");
         System.out.println("java -jar fileserver.jar --fileserver.mode=SMB (SMB:20.8)");
         System.out.println("java -jar fileserver.jar --fileserver.mode=FTP (FTP:10.30)");
-        System.out.println("===============Interface Document Description===============");
+        System.out.println("===============Interface Document Description==============");
         System.out.println("http://127.0.0.1:9090/swagger-ui.html");
         System.out.println("===========================================================");
     }

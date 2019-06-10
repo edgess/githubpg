@@ -27,8 +27,8 @@ public class FileserverApplicationTests {
 
 
         ////测试上传
-        String filein = "D:\\Python36\\NEWS.txt";
-        InputStream is = new FileInputStream(filein);
+//        String filein = "D:\\Python36\\NEWS.txt";
+//        InputStream is = new FileInputStream(filein);
 //        saveFile2SYS.uploadFile("/ggg/", "bbb.txt", is);
     }
 
