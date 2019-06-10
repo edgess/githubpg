@@ -23,73 +23,73 @@ public class SaveFile2FTP implements SaveFile {
     private int ftpPort;
 
     public boolean createDirectory(String path, String createpath) {
-        FTPClient ftpClient = null;
+        FTPClient ftpClient = getFTPClient();
         try {
-            ftpClient = getFTPClient(ftpHost, ftpUserName, ftpPassword, ftpPort);
-            ftpClient.setControlEncoding("UTF-8"); // 中文支持
-            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-//            ftpClient.enterLocalPassiveMode();
             ftpClient.changeWorkingDirectory(path);
             ftpClient.makeDirectory(createpath);
-            ftpClient.logout();
             return true;
         } catch (Exception e) {
-//            e.printStackTrace();
             return false;
+        } finally {
+            try {
+                ftpClient.disconnect();
+            } catch (Exception e) {
+                System.out.println("关闭错误");
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public boolean delDirectory(String path, String delpath) {
-        return false;
+        FTPClient ftpClient = getFTPClient();
+        try {
+            ftpClient.changeWorkingDirectory(path);
+            System.out.println(ftpClient.removeDirectory(delpath));
+            return true;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            try {
+                ftpClient.disconnect();
+            } catch (Exception e) {
+                System.out.println("关闭错误");
+                e.printStackTrace();
+            }
+        }
     }
-
-
 
     @Override
     public boolean delFile(String path, String filename) {
-        FTPClient ftpClient = null;
+        FTPClient ftpClient = getFTPClient();
         try {
-            return true;
+            ftpClient.changeWorkingDirectory(path);
+            if (ftpClient.dele(filename) == 250) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e) {
-//            e.printStackTrace();
             return false;
+        } finally {
+            try {
+                ftpClient.disconnect();
+            } catch (Exception e) {
+                System.out.println("关闭错误");
+                e.printStackTrace();
+            }
         }
-
     }
 
     @Override
     public boolean existDirectory(String path) {
-        return false;
-    }
-
-    @Override
-    public boolean existFile(String path, String filename) {
-        return false;
-    }
-
-    public List<String> listFiles(String path) {
-        FTPClient ftpClient = null;
-        List<String> name = new ArrayList<>();
-
+        FTPClient ftpClient = getFTPClient();
         try {
-            ftpClient = getFTPClient(ftpHost, ftpUserName, ftpPassword, ftpPort);
-            ftpClient.setControlEncoding("UTF-8"); // 中文支持
-            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-//            ftpClient.enterLocalPassiveMode();
-            System.out.println(path);
             if (ftpClient.changeWorkingDirectory(path)) {
-
-                FTPFile[] ff = ftpClient.listFiles();
-                for (FTPFile file : ff) {
-                    if(file.isFile()){
-                        name.add(file.getName());
-                    }
-                }
+                return true;
+            } else {
+                return false;
             }
-
-            ftpClient.logout();
-
         } catch (FileNotFoundException e) {
             System.out.println("没有找到" + path + "文件");
             e.printStackTrace();
@@ -97,32 +97,103 @@ public class SaveFile2FTP implements SaveFile {
             System.out.println("连接FTP失败.");
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
             System.out.println("文件读取错误。");
             e.printStackTrace();
+        } finally {
+            try {
+                ftpClient.disconnect();
+            } catch (Exception e) {
+                System.out.println("关闭错误");
+                e.printStackTrace();
+            }
         }
+        return false;
+    }
 
+    @Override
+    public boolean existFile(String path, String filename) {
+        List<String> name = new ArrayList<>();
+        FTPClient ftpClient = getFTPClient();
+        try {
+            if (ftpClient.changeWorkingDirectory(path)) {
+                FTPFile[] ff = ftpClient.listFiles();
+                for (FTPFile file : ff) {
+                    if (file.isFile()) {
+                        name.add(file.getName());
+                    }
+                }
+                if (name.contains(filename)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("没有找到" + path + "文件");
+            e.printStackTrace();
+        } catch (SocketException e) {
+            System.out.println("连接FTP失败.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("文件读取错误。");
+            e.printStackTrace();
+        } finally {
+            try {
+                ftpClient.disconnect();
+            } catch (Exception e) {
+                System.out.println("关闭错误");
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<String> listFiles(String path) {
+        List<String> name = new ArrayList<>();
+        FTPClient ftpClient = getFTPClient();
+        try {
+            if (ftpClient.changeWorkingDirectory(path)) {
+                FTPFile[] ff = ftpClient.listFiles();
+                for (FTPFile file : ff) {
+                    if (file.isFile()) {
+                        name.add(file.getName());
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("没有找到" + path + "文件");
+            e.printStackTrace();
+        } catch (SocketException e) {
+            System.out.println("连接FTP失败.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("文件读取错误。");
+            e.printStackTrace();
+        } finally {
+            try {
+                ftpClient.disconnect();
+            } catch (Exception e) {
+                System.out.println("关闭错误");
+                e.printStackTrace();
+            }
+        }
         return name;
     }
 
+    @Override
     public List<String> listDirectory(String path) {
-        FTPClient ftpClient = null;
         List<String> name = new ArrayList<>();
-
+        FTPClient ftpClient = getFTPClient();
         try {
-            ftpClient = getFTPClient(ftpHost, ftpUserName, ftpPassword, ftpPort);
-            ftpClient.setControlEncoding("UTF-8"); // 中文支持
-            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-//            ftpClient.enterLocalPassiveMode();
             if (ftpClient.changeWorkingDirectory(path)) {
                 FTPFile[] fd = ftpClient.listDirectories();
                 for (FTPFile ftpFile : fd) {
                     name.add(ftpFile.getName() + "/");
                 }
             }
-
-            ftpClient.logout();
-
         } catch (FileNotFoundException e) {
             System.out.println("没有找到" + path + "文件");
             e.printStackTrace();
@@ -130,56 +201,44 @@ public class SaveFile2FTP implements SaveFile {
             System.out.println("连接FTP失败.");
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
             System.out.println("文件读取错误。");
             e.printStackTrace();
+        } finally {
+            try {
+                ftpClient.disconnect();
+            } catch (Exception e) {
+                System.out.println("关闭错误");
+                e.printStackTrace();
+            }
         }
         return name;
     }
 
+    @Override
     public void uploadFile(String path, String filename, InputStream input) {
-        FTPClient ftpClient = null;
+        FTPClient ftpClient = getFTPClient();
         try {
-            int reply;
-            ftpClient = getFTPClient(ftpHost, ftpUserName, ftpPassword, ftpPort);
-            reply = ftpClient.getReplyCode();
-            if (!FTPReply.isPositiveCompletion(reply)) {
-                ftpClient.disconnect();
-            }
-            ftpClient.setControlEncoding("UTF-8"); // 中文支持
-            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-//            ftpClient.enterLocalPassiveMode();
-
             ftpClient.changeWorkingDirectory(path);
             ftpClient.storeFile(filename, input);
-
             input.close();
-            ftpClient.logout();
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (ftpClient.isConnected()) {
-                try {
-                    ftpClient.disconnect();
-                } catch (IOException ioe) {
-                }
+            try {
+                ftpClient.disconnect();
+            } catch (Exception e) {
+                System.out.println("关闭错误");
+                e.printStackTrace();
             }
         }
-
     }
 
+    @Override
     public void downloadFile(String path, String filename, OutputStream output) {
-        FTPClient ftpClient = null;
+        FTPClient ftpClient = getFTPClient();
         try {
-            ftpClient = getFTPClient(ftpHost, ftpUserName, ftpPassword, ftpPort);
-            ftpClient.setControlEncoding("UTF-8"); // 中文支持
-            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-//            ftpClient.enterLocalPassiveMode();
             ftpClient.changeWorkingDirectory(path);
             ftpClient.retrieveFile(filename, output);
-            output.close();
-            ftpClient.logout();
         } catch (FileNotFoundException e) {
             System.out.println("没有找到" + path + "文件");
             e.printStackTrace();
@@ -190,21 +249,18 @@ public class SaveFile2FTP implements SaveFile {
             e.printStackTrace();
             System.out.println("文件读取错误。");
             e.printStackTrace();
+        } finally {
+            try {
+                output.close();
+                ftpClient.disconnect();
+            } catch (Exception e) {
+                System.out.println("关闭错误");
+                e.printStackTrace();
+            }
         }
     }
 
-
-    /**
-     * 获取FTPClient对象
-     *
-     * @param ftpHost     FTP主机服务器
-     * @param ftpPassword FTP 登录密码
-     * @param ftpUserName FTP登录用户名
-     * @param ftpPort     FTP端口 默认为21
-     * @return
-     */
-    public FTPClient getFTPClient(String ftpHost, String ftpUserName,
-                                  String ftpPassword, int ftpPort) {
+    public FTPClient getFTPClient() {
         FTPClient ftpClient = new FTPClient();
         try {
             ftpClient = new FTPClient();
@@ -214,6 +270,8 @@ public class SaveFile2FTP implements SaveFile {
                 System.out.println("未连接到FTP，用户名或密码错误。");
                 ftpClient.disconnect();
             }
+            ftpClient.setControlEncoding("UTF-8"); // 中文支持
+            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
         } catch (SocketException e) {
             e.printStackTrace();
             System.out.println("FTP的IP地址可能错误，请正确配置。");

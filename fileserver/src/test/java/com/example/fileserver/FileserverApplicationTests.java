@@ -11,10 +11,10 @@ import java.io.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class FileserverApplicationTests {
-    @Autowired
-    SaveFile2SYS saveFile2SYS;
-    @Autowired
-    SaveFile2SMB saveFile2SMB;
+//    @Autowired
+//    SaveFile2SYS saveFile2SYS;
+//    @Autowired
+//    SaveFile2SMB saveFile2SMB;
 
     @Test
     public void contextLoads() throws FileNotFoundException {
@@ -29,7 +29,7 @@ public class FileserverApplicationTests {
         ////测试上传
         String filein = "D:\\Python36\\NEWS.txt";
         InputStream is = new FileInputStream(filein);
-        saveFile2SYS.uploadFile("/ggg/", "bbb.txt", is);
+//        saveFile2SYS.uploadFile("/ggg/", "bbb.txt", is);
     }
 
 }
