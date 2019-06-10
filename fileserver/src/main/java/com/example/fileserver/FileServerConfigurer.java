@@ -12,6 +12,7 @@ public class FileServerConfigurer {
 
     @Bean
     public SaveFile saveFile() {
+
         if (mode.equals("FTP")) {
             return new SaveFile2FTP();
         } else if (mode.equals("SMB")){
