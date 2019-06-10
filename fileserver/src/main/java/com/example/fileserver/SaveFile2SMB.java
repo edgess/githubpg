@@ -204,7 +204,7 @@ public class SaveFile2SMB implements SaveFile {
         path = defaultPath + path;
         String SERVER_ADDRESS = getSERVER_ADDRESS();
         if ((path == null) || ("".equals(path.trim()))) {
-            System.out.println("本地文件路径不可以为空");
+            System.out.println("local path not null");
             return;
         }
         InputStream in = null;
@@ -246,11 +246,11 @@ public class SaveFile2SMB implements SaveFile {
             SmbFile file = new SmbFile(SERVER_ADDRESS + path + filename);
 
             if (!file.exists()) {
-                System.out.println("Samba服务器远程文件不存在");
+                System.out.println("file not exist");
                 return;
             }
             if ((path == null) || ("".equals(path.trim()))) {
-                System.out.println("本地目录路径不可以为空");
+                System.out.println("local path not null");
                 return;
             }
             //打开文件输入流，指向远程的smb服务器上的文件，特别注意，这里流包装器包装了SmbFileInputStream
