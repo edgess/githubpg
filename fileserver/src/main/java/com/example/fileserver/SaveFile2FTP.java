@@ -4,7 +4,6 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.beans.factory.annotation.Value;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,15 +12,14 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class SaveFile2FTP implements SaveFile {
-    @Value("${fileserver.ftpHost}")
+    @Value("${fileserver.ftp.ftpHost}")
     private String ftpHost;
-    @Value("${fileserver.ftpUserName}")
+    @Value("${fileserver.ftp.ftpUserName}")
     private String ftpUserName;
-    @Value("${fileserver.ftpPassword}")
+    @Value("${fileserver.ftp.ftpPassword}")
     private String ftpPassword;
-    @Value("${fileserver.ftpPort}")
+    @Value("${fileserver.ftp.ftpPort}")
     private int ftpPort;
 
     public boolean createDirectory(String path, String createpath) {
@@ -51,10 +49,7 @@ public class SaveFile2FTP implements SaveFile {
     @Override
     public boolean delFile(String path, String filename) {
         FTPClient ftpClient = null;
-
-
         try {
-
             return true;
         } catch (Exception e) {
 //            e.printStackTrace();

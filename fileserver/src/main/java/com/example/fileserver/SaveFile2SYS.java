@@ -1,41 +1,20 @@
 package com.example.fileserver;
 
-import jcifs.smb.SmbFile;
-import jcifs.smb.SmbFileInputStream;
-import jcifs.smb.SmbFileOutputStream;
 import org.springframework.beans.factory.annotation.Value;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SaveFile2SMB implements SaveFile {
-    @Value("${fileserver.smb.smbHost}")
-    private String smbHost;
-    @Value("${fileserver.smb.smbUserName}")
-    private String smbUserName;
-    @Value("${fileserver.smb.smbPassword}")
-    private String smbPassword;
-    @Value("${fileserver.smb.defaultPath}")
+/**
+ * @author edge
+ * @date 2019/6/10-8:45
+ */
+
+public class SaveFile2SYS implements SaveFile {
+
+    @Value("${fileserver.sys.defaultPath}")
     private String defaultPath;
-
-    private String getSERVER_ADDRESS() {
-        return "smb://" + smbUserName + ":" + smbPassword + "@" + smbHost;
-    }
-
-//    public static void main(String[] args) throws MalformedURLException, SmbException, FileNotFoundException {
-////测试list
-////        listFile("/mailbak/");
-////测试上传
-////        String filein = "/Users/edge/Desktop/ftp/xb.pdf";
-////        InputStream is = new FileInputStream(filein);
-////        uploadFile("/mailbak/", "xb.pdf", is);
-////测试下载
-////        String fileout = "/Users/edge/Desktop/ftp/xb3.pdf";
-////        OutputStream os = new FileOutputStream(fileout);
-////        downloadFile("/mailbak/", "xb.pdf", os);
-//// 测试目录
-////        createDirectory("/mailbak/", "zzz/");
-//    }
 
     @Override
     public boolean createDirectory(String path, String createpath) {
@@ -43,9 +22,8 @@ public class SaveFile2SMB implements SaveFile {
             path = path + "/";
         }
         path = defaultPath + path;
-        String SERVER_ADDRESS = getSERVER_ADDRESS();
         try {
-            SmbFile file = new SmbFile(SERVER_ADDRESS + path + createpath);
+            File file = new File(path + createpath);
             file.mkdirs();
             return true;
         } catch (Exception e) {
@@ -62,9 +40,8 @@ public class SaveFile2SMB implements SaveFile {
         if (!"/".equals(delpath.substring(delpath.length() - 1, delpath.length()))) {
             delpath = delpath + "/";
         }
-        String SERVER_ADDRESS = getSERVER_ADDRESS();
         try {
-            SmbFile file = new SmbFile(SERVER_ADDRESS + path + delpath);
+            File file = new File(path + delpath);
             if (file.exists()) {
                 file.delete();
                 return true;
@@ -82,9 +59,8 @@ public class SaveFile2SMB implements SaveFile {
             path = path + "/";
         }
         path = defaultPath + path;
-        String SERVER_ADDRESS = getSERVER_ADDRESS();
         try {
-            SmbFile file = new SmbFile(SERVER_ADDRESS + path + filename);
+            File file = new File(path + filename);
             if (file.exists()) {
                 file.delete();
                 return true;
@@ -102,9 +78,8 @@ public class SaveFile2SMB implements SaveFile {
             path = path + "/";
         }
         path = defaultPath + path;
-        String SERVER_ADDRESS = getSERVER_ADDRESS();
         try {
-            SmbFile file = new SmbFile(SERVER_ADDRESS + path);
+            File file = new File(path);
             if (file.exists()) {
                 return true;
             } else {
@@ -122,17 +97,21 @@ public class SaveFile2SMB implements SaveFile {
         }
         boolean flag = existDirectory(path);
         path = defaultPath + path;
-
-        String SERVER_ADDRESS = getSERVER_ADDRESS();
         if (flag) {
             List<String> name = new ArrayList<>();
             try {
-                SmbFile file = new SmbFile(SERVER_ADDRESS + path);
-                SmbFile[] aa = file.listFiles();
+                File file = new File(path);
+                File[] aa = file.listFiles();
                 for (int i = 0; i < aa.length; i++) {
-                    //不是隐藏文件就在list中加入文件名，去掉ip地址和头
+                    //不是隐藏文件就在list中加入文件名，去掉文件夹名
                     if (aa[i].isFile() && !aa[i].isHidden()) {
-                        name.add(aa[i].toString().replaceAll(SERVER_ADDRESS + path, ""));
+                        //判断操作系统类型
+                        if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
+                            path = path.replaceAll("/", "\\\\");
+                            name.add(aa[i].toString().replace(path, ""));
+                        } else {
+                            name.add(aa[i].toString().replace(path, ""));
+                        }
                     }
                 }
 
@@ -155,21 +134,24 @@ public class SaveFile2SMB implements SaveFile {
             path = path + "/";
         }
         path = defaultPath + path;
-        String SERVER_ADDRESS = getSERVER_ADDRESS();
         List<String> name = new ArrayList<>();
         try {
-            SmbFile file = new SmbFile(SERVER_ADDRESS + path);
-            SmbFile[] aa = file.listFiles();
+            File file = new File(path);
+            File[] aa = file.listFiles();
             for (int i = 0; i < aa.length; i++) {
-                //不是隐藏文件就在list中加入文件名，去掉ip地址和头
+                //不是隐藏文件就在list中加入文件名，去掉文件夹名
                 if (aa[i].isFile() && !aa[i].isHidden()) {
-                    name.add(aa[i].toString().replaceAll(SERVER_ADDRESS + path, ""));
+                    //判断操作系统类型
+                    if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
+                        path = path.replaceAll("/", "\\\\");
+                        name.add(aa[i].toString().replace(path, ""));
+                    } else {
+                        name.add(aa[i].toString().replace(path, ""));
+                    }
                 }
             }
         } catch (Exception e) {
-
         }
-
         return name;
     }
 
@@ -179,19 +161,23 @@ public class SaveFile2SMB implements SaveFile {
             path = path + "/";
         }
         path = defaultPath + path;
-        String SERVER_ADDRESS = getSERVER_ADDRESS();
         List<String> name = new ArrayList<>();
         try {
-            SmbFile file = new SmbFile(SERVER_ADDRESS + path);
-            SmbFile[] aa = file.listFiles();
+            File file = new File(path);
+            File[] aa = file.listFiles();
             for (int i = 0; i < aa.length; i++) {
-                //不是隐藏文件就在list中加入文件名，去掉ip地址和头
+                //不是隐藏文件夹就在list中加入
                 if (aa[i].isDirectory() && !aa[i].isHidden()) {
-                    name.add(aa[i].toString().replaceAll(SERVER_ADDRESS + path, ""));
+                    //判断操作系统类型
+                    if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
+                        path = path.replaceAll("/", "\\\\");
+                        name.add(aa[i].toString().replace(path, "") + "/");
+                    } else {
+                        name.add(aa[i].toString().replace(path, ""));
+                    }
                 }
             }
         } catch (Exception e) {
-
         }
         return name;
     }
@@ -202,19 +188,18 @@ public class SaveFile2SMB implements SaveFile {
             path = path + "/";
         }
         path = defaultPath + path;
-        String SERVER_ADDRESS = getSERVER_ADDRESS();
         if ((path == null) || ("".equals(path.trim()))) {
-            System.out.println("本地文件路径不可以为空");
+            System.out.println("local path not null");
             return;
         }
         InputStream in = null;
         OutputStream out = null;
         try {
-            SmbFile file = new SmbFile(SERVER_ADDRESS + path + filename);
+            File file = new File(path + filename);
             //打开一个文件输入流执行本地文件，要从它读取内容
             in = new BufferedInputStream(input);
             //打开一个远程Samba文件输出流，作为复制到的目的地
-            out = new BufferedOutputStream(new SmbFileOutputStream(file));
+            out = new BufferedOutputStream(new FileOutputStream(file));
             //缓冲内存
             byte[] buffer = new byte[1024];
             while (in.read(buffer) != -1) {
@@ -239,22 +224,21 @@ public class SaveFile2SMB implements SaveFile {
             path = path + "/";
         }
         path = defaultPath + path;
-        String SERVER_ADDRESS = getSERVER_ADDRESS();
         InputStream in = null;
         OutputStream out = null;
         try {
-            SmbFile file = new SmbFile(SERVER_ADDRESS + path + filename);
+            File file = new File(path + filename);
 
             if (!file.exists()) {
-                System.out.println("Samba服务器远程文件不存在");
+                System.out.println("file not exist");
                 return;
             }
             if ((path == null) || ("".equals(path.trim()))) {
-                System.out.println("本地目录路径不可以为空");
+                System.out.println("local path not null");
                 return;
             }
             //打开文件输入流，指向远程的smb服务器上的文件，特别注意，这里流包装器包装了SmbFileInputStream
-            in = new BufferedInputStream(new SmbFileInputStream(file));
+            in = new BufferedInputStream(new FileInputStream(file));
             //打开文件输出流，指向新创建的本地文件，作为最终复制到的目的地
             out = new BufferedOutputStream(output);
             //缓冲内存
