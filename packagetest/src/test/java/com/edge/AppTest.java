@@ -1,5 +1,6 @@
 package com.edge;
 
+import com.edge.dao.server.Log2Service;
 import com.edge.dao.server.UserService;
 import com.edge.daojpa.TestRepository;
 import com.edge.daomy.mapper.Agent;
@@ -30,6 +31,10 @@ public class AppTest {
 //---------
         UserDAOJDBCImpl userDAOJDBC = new UserDAOJDBCImpl();
         System.out.println(userDAOJDBC.aa());
+//---------
+        Log2Service log2Service  = (Log2Service) ac.getBean(Log2Service.class);
+        System.out.println(log2Service.getall());
+
     }
 
     @Test

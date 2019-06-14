@@ -15,7 +15,7 @@ public class testrate {
         //年利率5%
         double rate = 1 + (0.05 / mORy);
         //年付
-        double cash = 3600 / mORy;
+        double cash = 3336 / mORy;
         double sumcash = 0;
         double sumrate = 0;
         List<Double> ratelist = new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.example.fileserver.control;
 
+import com.edge.dao.server.Log2Service;
 import com.example.fileserver.Result;
 import com.example.fileserver.SaveFile;
 import io.swagger.annotations.ApiImplicitParam;
@@ -23,6 +24,7 @@ public class Control {
 
     @Autowired
     SaveFile saveFile;
+
 
 //    @RequestMapping("updata2")
 //    public String updata2(HttpServletRequest request) throws IOException {
@@ -114,6 +116,7 @@ public class Control {
     @PostMapping("listfile")
     public Result listfile(@RequestParam(value = "path", required = false, defaultValue = "/") String path) {
         Result result = new Result();
+
         if (saveFile.existDirectory(path)) {
             result.setData(saveFile.listFiles(path));
             return result;
@@ -131,6 +134,7 @@ public class Control {
     @PostMapping("listdir")
     public Result listdir(@RequestParam(value = "path", required = false, defaultValue = "/") String path) {
         Result result = new Result();
+//        logger.error("listdir logger!");
         if (saveFile.existDirectory(path)) {
             result.setData(saveFile.listDirectory(path));
             return result;
