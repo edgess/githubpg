@@ -3,6 +3,7 @@ package com.example.demo1;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,22 @@ import java.util.List;
  */
 public class testrate {
     public static void main(String[] args) {
+        Date date = new Date();
+        dt();
+        List<String> aa = Arrays.asList("aa","bb");
+        aa.forEach(System.out::print);
+
+        String[] strs = new String[]{"张三","李四","王五"};
+        for (String str : strs) {
+            System.out.println(str);
+        }
+
+        System.out.println(getdaysub("2018-10-25", "2018-10-30"));
+        System.out.println(getday("2018-10-25", -3));
+
+    }
+
+    public static void dt() {
         //12月计算，1年计算
         int mORy = 12;
         //20年
@@ -36,9 +53,6 @@ public class testrate {
             sumcash = sumcash + cash * ratelist.get(i);
             System.out.println(sumcash);
         }
-
-        System.out.println(getdaysub("2018-10-25", "2018-10-30"));
-        System.out.println(getday("2018-10-25", -3));
     }
 
     public static Date getday(String d1, long day) {
@@ -65,8 +79,6 @@ public class testrate {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        System.out.println(date1.getTime());
-        System.out.println(date2.getTime());
         long add = 24 * 60 * 60 * 1000;
         long daya = date2.getTime() - date1.getTime();
         return daya / add;
