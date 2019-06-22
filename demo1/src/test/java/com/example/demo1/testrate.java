@@ -32,11 +32,11 @@ public class testrate {
         //12月计算，1年计算
         int mORy = 12;
         //20年
-        int times = 20 * mORy;
+        int times = 15 * mORy;
         //年利率5%
         double rate = 1 + (0.05 / mORy);
         //年付
-        double cash = 3336 / mORy;
+        double cash = 387;
         double sumcash = 0;
         double sumrate = 0;
         List<Double> ratelist = new ArrayList<>();

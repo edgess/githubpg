@@ -24,5 +24,6 @@
         <module>weblab</module>
         <module>dubbo/springboot-dubbo-server</module>
         <module>dubbo/springboot-dubbo-client</module>
+        <module>blogserver</module>
     </modules>
 </project>
