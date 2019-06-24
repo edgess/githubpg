@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <classPathEntry location="C:\Users\Admini\.m2\repository\mysql\mysql-connector-java\5.1.47\mysql-connector-java-5.1.47.jar"/>
+    <classPathEntry location="C:\Users\edge\.m2\repository\mysql\mysql-connector-java\5.1.47\mysql-connector-java-5.1.47.jar"/>
     <context id="mybatistable" targetRuntime="MyBatis3">
 
         <!-- <plugin type="org.mybatis.generator.plugins.SerializablePlugin" /> -->
@@ -29,31 +29,34 @@
                         driverClass="com.mysql.jdbc.Driver" userId="root" password="qwesza"/>
 
         <!-- 生成实体类 -->
-        <javaModelGenerator targetPackage="com.example.demo1.entity"
-                            targetProject="C:\Users\Admini\IdeaProjects\pg\demo1\src\main\java">
+        <javaModelGenerator targetPackage="com.example.demo1.entity1"
+                            targetProject="src\main\java">
             <!-- 从数据库返回的值被清理前后的空格 -->
             <property name="trimStrings" value="true"/>
             <property name="enableSubPackages" value="false"/>
         </javaModelGenerator>
 
         <!-- *Mapper.xml 文件的位置 -->
-        <sqlMapGenerator targetPackage="mybatis"
-                         targetProject="C:\Users\Admini\IdeaProjects\pg\demo1\src\main\resources">
+        <sqlMapGenerator targetPackage="mybatis1"
+                         targetProject="src\main\resources">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <!-- 生成接口 -->
-        <javaClientGenerator targetPackage="com.example.demo1.mapper"
-                             targetProject="C:\Users\Admini\IdeaProjects\pg\demo1\src\main\java" type="XMLMAPPER">
+        <javaClientGenerator targetPackage="com.example.demo1.mapper1"
+                             targetProject="src\main\java" type="XMLMAPPER">
             <!--type="ANNOTATEDMAPPER">-->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
         <!-- 配置表信息 -->
-        <table schema="mybatis" tableName="user" domainObjectName="User"
-               enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true"
-               selectByExampleQueryId="true">
+        <!--<table schema="mybatis" tableName="user" domainObjectName="User"-->
+               <!--enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--selectByExampleQueryId="true">-->
+        <!--</table>-->
+        <table tableName="user">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
     </context>
