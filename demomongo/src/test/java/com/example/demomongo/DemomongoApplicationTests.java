@@ -107,16 +107,18 @@ public class DemomongoApplicationTests {
 //        System.out.println(JSONArray.toJSONString(labRepository.findByAbcLike("ddd")));
 
 
-        Lab lab1 =new Lab();
-        lab1.setTp("111");
-        Lab lab2 = (Lab) lab1.clone();
-        lab1.setTp("333");
-        System.out.println(lab1.getTp());
-        System.out.println(lab2.getTp());
-        String aaa = "eee";
-        String bbb = "eee";
-        System.out.println(aaa.hashCode());
-        System.out.println(bbb.hashCode());
+//        Lab lab1 =new Lab();
+//        lab1.setTp("111");
+//        Lab lab2 = (Lab) lab1.clone();
+//        lab1.setTp("333");
+//        System.out.println(lab1.getTp());
+//        System.out.println(lab2.getTp());
+//        String aaa = "eee";
+//        String bbb = "eee";
+//        System.out.println(aaa.hashCode());
+//        System.out.println(bbb.hashCode());
+
+        System.out.println(labRepository.findAll().size());
     }
 
 }

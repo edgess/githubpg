@@ -4,14 +4,14 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <classPathEntry location="C:\Users\edge\.m2\repository\mysql\mysql-connector-java\5.1.47\mysql-connector-java-5.1.47.jar"/>
+    <classPathEntry location="C:\Users\Admini\.m2\repository\mysql\mysql-connector-java\5.1.47\mysql-connector-java-5.1.47.jar"/>
     <context id="mybatistable" targetRuntime="MyBatis3">
 
         <!-- <plugin type="org.mybatis.generator.plugins.SerializablePlugin" /> -->
         <!-- <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"
             /> -->
         <!-- 生成to string -->
-        <!--<plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>-->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
 
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
@@ -55,8 +55,15 @@
                <!--enableDeleteByExample="true" enableSelectByExample="true"-->
                <!--selectByExampleQueryId="true">-->
         <!--</table>-->
-        <table tableName="user">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        <!--<table tableName="%">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+
+        <!-- 配置表信息 -->
+        <table schema="mybatis" tableName="log2"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
         </table>
 
     </context>

@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
-@MapperScan("com.example.demo1.mapper.OilMapper")
+@MapperScan("com.example.demo1.mapper")
+//@MapperScan({"com.example.demo1.mapper","com.example.demo1.mapper1"})
 //@ImportResource("classpath:applicationContext.xml")
 public class Demo1Application {
 

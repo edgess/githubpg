@@ -57,9 +57,10 @@
 </template>
 <script>
   import {getRequest} from '../utils/api'
-  export default{
+
+  export default {
     methods: {
-      handleCommand(command){
+      handleCommand(command) {
         var _this = this;
         if (command == 'logout') {
           this.$confirm('注销登录吗?', '提示', {
@@ -89,7 +90,7 @@
         _this.currentUserName = '游客';
       });
     },
-    data(){
+    data() {
       return {
         currentUserName: ''
       }
