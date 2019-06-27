@@ -12,4 +12,7 @@ import java.util.List;
 public interface LabRepository extends MongoRepository<Lab,Integer> {
 //    List<Lab> findByAbcLike(String abc);
 
+    Lab findById (int abc);
+    List<Lab> findFirst10ByOrderByIdDesc();
+    List<Lab> findFirst10By();
 }

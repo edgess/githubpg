@@ -3,6 +3,7 @@ package com.example.demomongo;
 import com.example.demomongo.entity.Lab;
 import com.example.demomongo.entity.User;
 import com.example.demomongo.mango.MongoAutoidUtil;
+import com.example.demomongo.mapper.LabMapper;
 import com.example.demomongo.mapper.RoleMapper;
 import com.example.demomongo.mapper.UserMapper;
 import com.example.demomongo.repository.LabRepository;
@@ -17,7 +18,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.apache.shiro.web.filter.mgt.DefaultFilter.user;
 
@@ -29,12 +32,14 @@ public class DemomongoApplicationTests {
     @Autowired
     MongoAutoidUtil mongoAutoidUtil;
     @Autowired
-    RoleMapper  roleMapper;
+    RoleMapper roleMapper;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    LabMapper labMapper;
 
     @Test
-    public void contextLoads6()  {
+    public void contextLoads6() {
         System.out.println(userMapper.findall());
         System.out.println(roleMapper.findall());
     }
@@ -74,11 +79,12 @@ public class DemomongoApplicationTests {
         System.out.println(PasswordUtil.generate("edge"));
         System.out.println(PasswordUtil.verify("edge", "c2361ce9951729701a43fa49d48c6038a77ed9be1887b82f"));
     }
+
     @Test
     public void contextLoads1() throws CloneNotSupportedException {
-        System.out.println("roro --"+userMapper.findRoles("roro"));
-        System.out.println("lele --"+userMapper.findRoles("lele"));
-        System.out.println("lele --"+userMapper.findPermission("lele"));
+        System.out.println("roro --" + userMapper.findRoles("roro"));
+        System.out.println("lele --" + userMapper.findRoles("lele"));
+        System.out.println("lele --" + userMapper.findPermission("lele"));
     }
 
     @Test
@@ -103,7 +109,7 @@ public class DemomongoApplicationTests {
 //        Lab lab =new Lab(mongoAutoidUtil.getNextSequence("lab"),"11","11",new Date());
 //        labRepository.save(lab);
 
-       // System.out.println(JSONArray.toJSONString(labRepository.findById(mongoAutoidUtil.getNextSequence("lab")-1)));
+        // System.out.println(JSONArray.toJSONString(labRepository.findById(mongoAutoidUtil.getNextSequence("lab")-1)));
 //        System.out.println(JSONArray.toJSONString(labRepository.findByAbcLike("ddd")));
 
 
@@ -118,7 +124,24 @@ public class DemomongoApplicationTests {
 //        System.out.println(aaa.hashCode());
 //        System.out.println(bbb.hashCode());
 
+    }
+
+    @Test
+    public void contextLoads7() throws CloneNotSupportedException {
+        List<Lab> labs = labMapper.findall();
+        for (int i = 0; i < labs.size(); i++) {
+            Lab lab = labs.get(i);
+            lab.setId(mongoAutoidUtil.getNextSequence("lab"));
+            labRepository.save(lab);
+        }
         System.out.println(labRepository.findAll().size());
     }
 
+    @Test
+    public void contextLoads8() throws CloneNotSupportedException {
+
+        System.out.println(labRepository.findFirst10ByOrderByIdDesc());
+        System.out.println(labRepository.findFirst10By());
+        
+    }
 }

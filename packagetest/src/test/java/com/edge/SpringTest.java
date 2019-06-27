@@ -32,4 +32,10 @@ public class SpringTest {
         UserDAOJDBCImpl userDAOJDBC = new UserDAOJDBCImpl();
         System.out.println(userDAOJDBC.aa());
     }
+    @Test
+    public void test2() {
+//---------
+//        System.out.println(testRepository.findAll());
+        System.out.println(testRepository.findFirstByOrderByIdDesc());
+    }
 }
