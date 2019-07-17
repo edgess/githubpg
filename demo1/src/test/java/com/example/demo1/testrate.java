@@ -15,13 +15,26 @@ public class testrate {
     public static void main(String[] args) {
         Date date = new Date();
         dt();
-        List<String> aa = Arrays.asList("aa","bb");
+        List<String> aa = Arrays.asList("aa", "bb");
         aa.forEach(System.out::print);
 
-        String[] strs = new String[]{"张三","李四","王五"};
+        String[] strs = new String[]{"张三", "李四", "王五"};
         for (String str : strs) {
             System.out.println(str);
         }
+
+        String a = "gg";
+        switch (a) {
+            case "gg":
+                System.out.println("case1");
+                break;
+            case "aa":
+                System.out.println("case2");
+                break;
+            default:
+                System.out.println("def");
+        }
+
 
         System.out.println(getdaysub("2018-10-25", "2018-10-30"));
         System.out.println(getday("2018-10-25", -3));
