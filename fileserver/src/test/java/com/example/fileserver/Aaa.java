@@ -1,5 +1,8 @@
 package com.example.fileserver;
 
+import java.util.Random;
+import java.util.UUID;
+
 /**
  * @author edge
  * @date 2019/7/22-15:36
@@ -20,11 +23,11 @@ public class Aaa {
         System.out.println(System.getProperty("java.library.path "));
         System.out.println(System.getProperty("java.io.tmpdir"));
         System.out.println(System.currentTimeMillis());
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(System.currentTimeMillis());
+        System.out.println(UUID.randomUUID().toString());
+        System.out.println(UUID.randomUUID().toString());
+        System.out.println(UUID.randomUUID().toString());
+        System.out.println(UUID.randomUUID().toString());
+        System.out.println(UUID.randomUUID().toString());
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", "").length());
     }
 }
