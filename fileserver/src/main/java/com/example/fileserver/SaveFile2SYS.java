@@ -12,15 +12,29 @@ import java.util.List;
 
 public class SaveFile2SYS implements SaveFile {
 
-    @Value("${fileserver.sys.defaultPath}")
-    private String defaultPath;
+//    @Value("${fileserver.sys.defaultPath}")
+//    private String defaultPath;
+
+    @Value("${fileserver.sys.win.defaultPath}")
+    private String windefaultPath;
+
+    @Value("${fileserver.sys.uix.defaultPath}")
+    private String uixdefaultPath;
+
+    private String getOsString(){
+        if ((System.getProperty("os.name").toLowerCase().indexOf("windows") >= 0)) {
+            return  windefaultPath;
+        } else {
+            return uixdefaultPath;
+        }
+    }
 
     @Override
     public boolean createDirectory(String path, String createpath) {
         if (!"/".equals(path.substring(path.length() - 1, path.length()))) {
             path = path + "/";
         }
-        path = defaultPath + path;
+        path = getOsString() + path;
         try {
             File file = new File(path + createpath);
             file.mkdirs();
@@ -35,7 +49,7 @@ public class SaveFile2SYS implements SaveFile {
         if (!"/".equals(path.substring(path.length() - 1, path.length()))) {
             path = path + "/";
         }
-        path = defaultPath + path;
+        path = getOsString() + path;
         if (!"/".equals(delpath.substring(delpath.length() - 1, delpath.length()))) {
             delpath = delpath + "/";
         }
@@ -57,7 +71,7 @@ public class SaveFile2SYS implements SaveFile {
         if (!"/".equals(path.substring(path.length() - 1, path.length()))) {
             path = path + "/";
         }
-        path = defaultPath + path;
+        path = getOsString() + path;
         try {
             File file = new File(path + filename);
             if (file.exists()) {
@@ -76,7 +90,7 @@ public class SaveFile2SYS implements SaveFile {
         if (!"/".equals(path.substring(path.length() - 1, path.length()))) {
             path = path + "/";
         }
-        path = defaultPath + path;
+        path = getOsString() + path;
         try {
             File file = new File(path);
             if (file.exists()) {
@@ -95,7 +109,7 @@ public class SaveFile2SYS implements SaveFile {
             path = path + "/";
         }
         boolean flag = existDirectory(path);
-        path = defaultPath + path;
+        path = getOsString() + path;
         if (flag) {
             List<String> name = new ArrayList<>();
             try {
@@ -132,7 +146,7 @@ public class SaveFile2SYS implements SaveFile {
         if (!"/".equals(path.substring(path.length() - 1, path.length()))) {
             path = path + "/";
         }
-        path = defaultPath + path;
+        path = getOsString() + path;
 //        System.out.println("edge---"+System.getProperty("user.home"));
         List<String> name = new ArrayList<>();
         try {
@@ -160,7 +174,7 @@ public class SaveFile2SYS implements SaveFile {
         if (!"/".equals(path.substring(path.length() - 1, path.length()))) {
             path = path + "/";
         }
-        path = defaultPath + path;
+        path = getOsString() + path;
         List<String> name = new ArrayList<>();
         try {
             File file = new File(path);
@@ -187,7 +201,7 @@ public class SaveFile2SYS implements SaveFile {
         if (!"/".equals(path.substring(path.length() - 1, path.length()))) {
             path = path + "/";
         }
-        path = defaultPath + path;
+        path = getOsString() + path;
         if ((path == null) || ("".equals(path.trim()))) {
             System.out.println("local path not null");
             return;
@@ -223,7 +237,7 @@ public class SaveFile2SYS implements SaveFile {
         if (!"/".equals(path.substring(path.length() - 1, path.length()))) {
             path = path + "/";
         }
-        path = defaultPath + path;
+        path = getOsString() + path;
         InputStream in = null;
         OutputStream out = null;
         try {
