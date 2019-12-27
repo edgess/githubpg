@@ -7,10 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/**
- * @author edge
- * @date 2019/6/14-15:19
- */
 @Component
 public class Log2Service {
     @Autowired

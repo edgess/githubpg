@@ -18,7 +18,7 @@ public class Log2DB implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println(new Date().toString() + "---" + request.getRemoteAddr());
+//        System.out.println(new Date().toString() + "---" + request.getRemoteAddr());
 //        System.out.println(  request.getRequestURI() + "--" + request.getPathInfo() + "--" + request.getPathTranslated() + "--" + request.getQueryString());
         Log2 log2 = new Log2();
         log2.setDate(new Date());

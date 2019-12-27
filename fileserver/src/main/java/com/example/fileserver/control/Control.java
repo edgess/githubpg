@@ -1,5 +1,6 @@
 package com.example.fileserver.control;
 
+import com.example.fileserver.FastDFSClient;
 import com.example.fileserver.Result;
 import com.example.fileserver.SaveFile;
 import io.swagger.annotations.ApiImplicitParam;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
+import javax.swing.filechooser.FileSystemView;
+import java.io.*;
 
 @RestController
 public class Control {
@@ -22,6 +23,33 @@ public class Control {
 
     @Autowired
     SaveFile saveFile;
+
+
+    public static void main(String[] args) throws Exception {
+
+        String filename = "tw.123.jpg";
+        System.out.println(filename.substring(0, filename.lastIndexOf(".")));
+        System.out.println(filename.substring(filename.lastIndexOf("."),filename.length()));
+
+
+//        String confUrl = Thread.currentThread().getContextClassLoader().getResource("fastdfs_client.conf").getPath();
+//        FastDFSClient fastDFSClient = new FastDFSClient(confUrl);
+
+//        FileInfo file=fastDFSClient.getFile("group1","M00/00/00/wKgKuF4EX2eAZ6beAADkW_3yAvw960.jpg");
+//        System.out.println("获取文件信息成功："+file.getFileSize());
+
+//        String  filePath= fastDFSClient.uploadFile("C:\\Users\\Admini\\Desktop\\tw.jpg");
+//        System.out.println("返回路径："+filePath);
+
+//        FileSystemView fsv = FileSystemView.getFileSystemView();
+//        File com = fsv.getHomeDirectory(); //读取桌面路径
+//        int downFlag = fastDFSClient.download_file("group1/M00/00/00/wKgKuF4DES6AOoitAAQ5sg9aABU945.jpg", new BufferedOutputStream(new FileOutputStream(com.getPath() + "\\aedgea.jpg")));
+//        System.out.println("下载结果为：" + (downFlag == 0 ? "下载文件成功" : "下载文件失败"));
+
+//        int flag=fastDFSClient.delete_file("group1/M00/00/00/wKgKuF4EX2eAZ6beAADkW_3yAvw960.jpg");
+//        System.out.println("删除结果：" +(flag==0?"删除成功":"删除失败"));
+
+    }
 
 
 //    @RequestMapping("updata2")
@@ -40,7 +68,7 @@ public class Control {
 //        return "success";
 //    }
 
-//    @RequestMapping("updata")
+    //    @RequestMapping("updata")
 //    public String updata(MultipartFile file) throws IOException {
 ////        if (file.isEmpty()) {
 ////            return "updata error,select file";

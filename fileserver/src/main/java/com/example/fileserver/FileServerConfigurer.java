@@ -15,9 +15,11 @@ public class FileServerConfigurer {
 
         if (mode.equals("FTP")) {
             return new SaveFile2FTP();
-        } else if (mode.equals("SMB")){
+        } else if (mode.equals("SMB")) {
             return new SaveFile2SMB();
-        }else {
+        } else if (mode.equals("FDFS")) {
+            return new SaveFile2FDFS();
+        } else {
             return new SaveFile2SYS();
         }
 

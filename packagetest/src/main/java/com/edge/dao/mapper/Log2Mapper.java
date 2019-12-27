@@ -1,6 +1,5 @@
 package com.edge.dao.mapper;
 
-
 import com.edge.entity.Log2;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;

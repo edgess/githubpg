@@ -1,11 +1,14 @@
 package com.edge;
 
 import com.edge.dao.server.Log2Service;
+import com.edge.dao.server.Name2FastDFSService;
 import com.edge.dao.server.UserService;
 import com.edge.dao.server.UtestService;
 import com.edge.daojpa.TestRepository;
 import com.edge.daomy.mapper.Agent;
 import com.edge.dbutils.UserDAOJDBCImpl;
+import com.edge.entity.Log2;
+import com.edge.entity.Name2FastDFS;
 import com.edge.entity.Utest;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -21,6 +24,7 @@ public class AppTest {
     /**
      * Rigorous Test :-)
      */
+
     @Test
     public void Test1() {
         ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
@@ -59,7 +63,7 @@ public class AppTest {
     public void Test4() {
         ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         UtestService utestService = (UtestService) ac.getBean(UtestService.class);
-        long t1 =System.currentTimeMillis();
+        long t1 = System.currentTimeMillis();
         for (int i = 0; i < 100; i++) {
             Utest utest = new Utest();
             utest.setId(UUID.randomUUID().toString().replaceAll("-", ""));
