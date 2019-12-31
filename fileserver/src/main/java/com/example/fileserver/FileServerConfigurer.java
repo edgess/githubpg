@@ -11,6 +11,20 @@ public class FileServerConfigurer {
     private String mode;
 
     @Bean
+    public FastDFSClient fastDFSClient() {
+        String confUrl = Thread.currentThread().getContextClassLoader().getResource("fastdfs_client.conf").getPath();
+        FastDFSClient fastDFSClient = null;
+
+        try {
+            fastDFSClient = new FastDFSClient(confUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fastDFSClient;
+    }
+
+
+    @Bean
     public SaveFile saveFile() {
 
         if (mode.equals("FTP")) {

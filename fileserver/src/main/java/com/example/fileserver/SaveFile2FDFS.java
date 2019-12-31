@@ -3,6 +3,7 @@ package com.example.fileserver;
 import com.edge.dao.server.Name2FastDFSService;
 import com.edge.entity.Name2FastDFS;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +17,9 @@ import java.util.Set;
 public class SaveFile2FDFS implements SaveFile {
     @Autowired
     Name2FastDFSService name2FastDFSService;
+
+    @Autowired
+    FastDFSClient fastDFSClient;
 
     @Override
     public boolean createDirectory(String path, String createpath) {
@@ -78,21 +82,21 @@ public class SaveFile2FDFS implements SaveFile {
         return baos.toByteArray();
     }
 
-
     @Override
     public void uploadFile(String path, String filename, InputStream input) {
-        String confUrl = Thread.currentThread().getContextClassLoader().getResource("fastdfs_client.conf").getPath();
-        FastDFSClient fastDFSClient = null;
-
-        try {
-            fastDFSClient = new FastDFSClient(confUrl);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String confUrl = Thread.currentThread().getContextClassLoader().getResource("fastdfs_client.conf").getPath();
+//        FastDFSClient fastDFSClient = null;
+//
+//        try {
+//            fastDFSClient = new FastDFSClient(confUrl);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         String fdsid = null;
         try {
             fdsid = fastDFSClient.uploadFile(is2ByeteArray(input));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,13 +119,13 @@ public class SaveFile2FDFS implements SaveFile {
         name2FastDFS.setExt(filename.substring(filename.lastIndexOf("."), filename.length()));
         Name2FastDFS name2FastDFS2 = name2FastDFSService.findFdfsbyName(name2FastDFS);
         if (name2FastDFS2 != null) {
-            String confUrl = Thread.currentThread().getContextClassLoader().getResource("fastdfs_client.conf").getPath();
-            FastDFSClient fastDFSClient = null;
-            try {
-                fastDFSClient = new FastDFSClient(confUrl);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            String confUrl = Thread.currentThread().getContextClassLoader().getResource("fastdfs_client.conf").getPath();
+//            FastDFSClient fastDFSClient = null;
+//            try {
+//                fastDFSClient = new FastDFSClient(confUrl);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
             fastDFSClient.download_file(name2FastDFS2.getFdfs(), new BufferedOutputStream(output));
         }
     }
