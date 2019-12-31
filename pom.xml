@@ -25,5 +25,7 @@
         <module>dubbo/springboot-dubbo-client</module>
         <module>blogserver</module>
         <module>hrserver</module>
+        <module>demoss</module>
+        <module></module>
     </modules>
 </project>

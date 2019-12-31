@@ -1,6 +1,5 @@
 package com.example.fileserver.control;
 
-import com.example.fileserver.FastDFSClient;
 import com.example.fileserver.Result;
 import com.example.fileserver.SaveFile;
 import io.swagger.annotations.ApiImplicitParam;
@@ -13,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.filechooser.FileSystemView;
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
 
 @RestController
 public class Control {
