@@ -18,6 +18,7 @@ public class Name2FastDFSService {
     }
 
     public int insert(Name2FastDFS name2FastDFS) {
+        name2FastDFS.setExt(name2FastDFS.getExt().toLowerCase());
         return name2FastDFSMapper.insert(name2FastDFS);
     }
 

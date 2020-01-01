@@ -1,12 +1,14 @@
 package com.example.fileserver;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StartLoader implements ApplicationRunner {
-
+    @Autowired
+    ConnectionSettings connectionSettings;
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("==================Parameter Configuration==================");
@@ -16,5 +18,7 @@ public class StartLoader implements ApplicationRunner {
         System.out.println("===============Interface Document Description==============");
         System.out.println("http://127.0.0.1:9090/swagger-ui.html");
         System.out.println("===========================================================");
+
+        System.out.println(connectionSettings);
     }
 }

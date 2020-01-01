@@ -25,9 +25,9 @@ public class Swagger2 {
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
 				.title("文件存储系统api文档")
-				.description("默认主目录为/wwwroot")
+//				.description("默认主目录为/wwwroot")
 				.version("1.0")
-				.termsOfServiceUrl("http://test.dangqugame.cn/")
+//				.termsOfServiceUrl("http://test.dangqugame.cn/")
 				.build();
 	}
 }
