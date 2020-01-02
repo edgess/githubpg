@@ -1,4 +1,4 @@
-package com.edge.domoss;
+package com.edge.demoss;
 
 import com.opensymphony.xwork2.ActionSupport;
 

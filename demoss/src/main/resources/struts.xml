@@ -7,7 +7,7 @@
 <struts>
     <package name="customer" namespace="/" extends="struts-default">
 
-        <action name="CustomerAction" class="com.edge.domoss.CustomerAction" method="findCustomerById">
+        <action name="CustomerAction" class="com.edge.demoss.CustomerAction" method="findCustomerById">
             <result name="success">/index.jsp</result>
         </action>
 
