@@ -256,16 +256,18 @@ public class Control {
 		// id号强转
 		int p0i = Integer.parseInt(p0);
 		// 默认日期设定
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		// 强转日期
-		Date p11d = format.parse("1980-01-01");
+		Date p11d = format.parse("19800101");
 		// 价格强转
 		int p9i = 0;
 		if (p9 != "") {
 			p9i = Integer.parseInt(p9);
 		}
 		if (p11 != "") {
-			p11d = format.parse(p11.replace("/", "-"));
+			p11d = format.parse(p11);
+//			p11d = format.parse(p11.replace("/", "-"));
 		}
 		// sql执行
 		itMapper.updateByPrimaryKeySelective(p1, p2, p3, p4.toUpperCase(), p5, p6, p7.toUpperCase(), p8, p9i, p10, p11d,

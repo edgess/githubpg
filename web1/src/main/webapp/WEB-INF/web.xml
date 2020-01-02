@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-           version="2.5">
+         version="2.5">
     <!--<welcome-file-list>-->
-        <!--<welcome-file></welcome-file>-->
+    <!--<welcome-file></welcome-file>-->
     <!--</welcome-file-list>-->
 
     <error-page>
@@ -16,41 +16,54 @@
 
     <!-- Spring Session Redis 共享 需要放在filter的第一个 -->
     <!--<filter>-->
-        <!--<filter-name>springSessionRepositoryFilter</filter-name>-->
-        <!--<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>-->
+    <!--<filter-name>springSessionRepositoryFilter</filter-name>-->
+    <!--<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>-->
     <!--</filter>-->
     <!--<filter-mapping>-->
-        <!--<filter-name>springSessionRepositoryFilter</filter-name>-->
+    <!--<filter-name>springSessionRepositoryFilter</filter-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
+
+<!--在xssFilter中已经置入了编码过滤器，如果使用请关闭，防止两次编码过滤-->
+    <!--&lt;!&ndash; 编码过滤器 &ndash;&gt;-->
+    <!--<filter>-->
+        <!--<filter-name>characterEncodingFilter</filter-name>-->
+        <!--<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>-->
+        <!--<init-param>-->
+            <!--<param-name>encoding</param-name>-->
+            <!--<param-value>UTF-8</param-value>-->
+        <!--</init-param>-->
+        <!--<init-param>-->
+            <!--<param-name>forceEncoding</param-name>-->
+            <!--<param-value>true</param-value>-->
+        <!--</init-param>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>characterEncodingFilter</filter-name>-->
         <!--<url-pattern>/*</url-pattern>-->
     <!--</filter-mapping>-->
 
-    <!-- 编码过滤器 -->
+    <!-- 解决xss漏洞 -->
     <filter>
-        <filter-name>characterEncodingFilter</filter-name>
-        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-        <init-param>
-            <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
-        </init-param>
+        <filter-name>xssFilter</filter-name>
+        <filter-class>com.mav.filter.XssFilter</filter-class>
     </filter>
+    <!-- 解决xss漏洞 -->
     <filter-mapping>
-        <filter-name>characterEncodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <filter-name>xssFilter</filter-name>
+        <!--过滤路径-->
+        <url-pattern>*</url-pattern>
     </filter-mapping>
 
-<!--    <filter>
-        <filter-name>LoginFilter</filter-name>
-        <filter-class>com.mav.interceptor.MyFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>LoginFilter</filter-name>
-        &lt;!&ndash;对所有的以jsp后缀的文件有效，其它的无效&ndash;&gt;
-        <url-pattern>*.jsp</url-pattern>
-    </filter-mapping>-->
+    <!--    <filter>
+            <filter-name>LoginFilter</filter-name>
+            <filter-class>com.mav.interceptor.MyFilter</filter-class>
+        </filter>
+        <filter-mapping>
+            <filter-name>LoginFilter</filter-name>
+            &lt;!&ndash;对所有的以jsp后缀的文件有效，其它的无效&ndash;&gt;
+            <url-pattern>*.jsp</url-pattern>
+        </filter-mapping>-->
 
 
     <servlet>
