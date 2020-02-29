@@ -53,6 +53,7 @@
         <!--<property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"></property> -->
     </bean>
 
+
     <!--通过扫描的模式，扫描目录在dao目录下的mapper-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.edge.dao.mapper"/>
@@ -64,6 +65,11 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory2"/>
     </bean>
 
+    <!--tkmapper-->
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.edge.daotkmapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
 
     <!--jpa-->
     <bean id="entityManagerFactory"

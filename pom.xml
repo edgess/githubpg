@@ -26,6 +26,7 @@
         <module>blogserver</module>
         <module>hrserver</module>
         <module>demoss</module>
+        <module>tkmapper</module>
         <module></module>
     </modules>
 </project>
