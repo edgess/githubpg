@@ -95,7 +95,7 @@ public class SaveFile2FDFS implements SaveFile {
 
         String fdsid = null;
         try {
-            fdsid = fastDFSClient.uploadFile(is2ByeteArray(input));
+            fdsid = fastDFSClient.uploadFile(is2ByeteArray(input), filename.substring(filename.lastIndexOf(".") + 1, filename.length()));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,4 +129,5 @@ public class SaveFile2FDFS implements SaveFile {
             fastDFSClient.download_file(name2FastDFS2.getFdfs(), new BufferedOutputStream(output));
         }
     }
+
 }

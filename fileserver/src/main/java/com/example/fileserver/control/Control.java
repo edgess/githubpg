@@ -1,5 +1,7 @@
 package com.example.fileserver.control;
 
+import com.edge.dao.server.Name2FastDFSService;
+import com.edge.entity.Name2FastDFS;
 import com.example.fileserver.Result;
 import com.example.fileserver.SaveFile;
 import io.swagger.annotations.ApiImplicitParam;
@@ -22,6 +24,9 @@ public class Control {
 
     @Autowired
     SaveFile saveFile;
+
+    @Autowired
+    Name2FastDFSService name2FastDFSService;
 
 //    @RequestMapping("updata2")
 //    public String updata2(HttpServletRequest request) throws IOException {
@@ -294,6 +299,25 @@ public class Control {
             saveFile.downloadFile(path, filename, os);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @ApiOperation(value = "下载文件url", notes = "")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "path", value = "路径", paramType = "query"),
+            @ApiImplicitParam(name = "filename", value = "文件名", required = true, paramType = "query")
+    })
+    @RequestMapping(value = "downloadfileUrl", method = {RequestMethod.POST, RequestMethod.GET})
+    public String downloadfileUrl(@RequestParam(value = "path", required = false, defaultValue = "/") String path, String filename, HttpServletResponse response) throws IOException {
+//        saveFile.downloadFileUrl(path, filename, os);
+        Name2FastDFS name2FastDFS = new Name2FastDFS();
+        name2FastDFS.setName(filename.substring(0, filename.lastIndexOf(".")));
+        name2FastDFS.setExt(filename.substring(filename.lastIndexOf("."), filename.length()));
+        Name2FastDFS name2FastDFS2 = name2FastDFSService.findFdfsbyName(name2FastDFS);
+        if (null == name2FastDFS2) {
+            return "null";
+        } else {
+            return "http://192.168.10.184/" + name2FastDFS2.getFdfs();
         }
     }
 }
