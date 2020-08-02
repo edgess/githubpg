@@ -32,5 +32,7 @@ public class ConnectionSettings {
                 ", remoteAddress='" + remoteAddress + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+        
+
     }
 }
